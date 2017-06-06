@@ -1,12 +1,8 @@
 
 
-  
 
 
 
-
-
-  
 
 
 <!doctype html>
@@ -20,9 +16,9 @@
   
   
   
-    <meta name="description" content="长叶子的历程">
+    <meta name="description" content="###首先在Spring Boot的工程中的 pom.xml 中引入 spring-boot-starter-mail 依赖：1234&lt;dependency&gt;  	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &lt;artifactId&gt;spring-boot-starter-mail&lt;/art...">
   
-  <title>Archives: 2017 [ Lullaby长叶子 ]</title>
+  <title>SpringBoot-JavaMail [ Lullaby长叶子 ]</title>
   
     <link rel="alternate" href="/atom.xml" title="Lullaby长叶子">
   
@@ -68,7 +64,7 @@
           </li>
         
           
-            <li class="active">
+            <li>
           
             <a href="/archives">Archives</a>
             
@@ -114,89 +110,65 @@
     <div id="content-inner">
       
       
-  <article>
-    
-
-  <div id="recent-posts">
-    <h1>Archives
-    
-      <span class="posts-count">
-      Total
-      1
+  <article id="post">
+    <h1>SpringBoot-JavaMail</h1>
+    <p class="page-title-sub">
+      <span id = "post-title-date">Created at 2017-06-06</span>
       
-        post
+        <span id = "post-title-updated">Updated at 2017-06-06</span>
+      
+      
+      <span id = "post-title-categories">Category
+      
+      
+        
+        
+        <a href="/categories/Spring/">Spring</a>
       
       </span>
-    
-    </h1>
-    
-    
+      
+      
+      <span id = "post-title-tags">
+      Tag
       
       
         
-      
-      
-    
-    
-    
-      
-      
         
-        <h3 class="archive-year-title">2017
-        
-          <span class="posts-count">
-          Total
-          1
-          
-            post
-          
-          </span>
-        
-        </h3>
+        <a href="/tags/Java/">-Java</a>
       
-      <div class="post-title-item">
-  
-  <a href="/2017/06/06/SpringBoot-JavaMail/">
-  
-    SpringBoot-JavaMail
-  
-  </a>
-  <p class="page-title-sub">
-    <span id = "post-title-date">6-6</span>
-    
-    <span id = "post-title-categories">Category
-    
-    
+      </span>
       
-      
-      <a href="/categories/Spring/">Spring</a>
+    </p>
     
-    </span>
-    
-    
-    <span id = "post-title-tags">
-    Tag
-    
-    
-      
-      
-      <a href="/tags/Java/">-Java</a>
-    
-    </span>
-    
-    
-      <br>
-      
-      
-    
-  </p>
-  
-</div>
-    
-  </div>
-
+    <p>###首先在Spring Boot的工程中的 pom.xml 中引入 spring-boot-starter-mail 依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;  </div><div class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-boot-starter-mail&lt;/artifactId&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
+<p>###然后以QQ邮箱为例，在 application.properties 中加入如下配置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">spring.mail.host=smtp.qq.com</div><div class="line">spring.mail.username=用户名  </div><div class="line">spring.mail.password=密码</div><div class="line">spring.mail.properties.mail.smtp.auth=true</div><div class="line">spring.mail.properties.mail.smtp.starttls.enable=true</div><div class="line">spring.mail.properties.mail.smtp.starttls.required=true</div></pre></td></tr></table></figure></p>
+<p>####这样配置方面就完成了</p>
+<p>###通过测试来实现一封简单邮件的发送：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">@Autowired</div><div class="line">private JavaMailSender mailSender;</div><div class="line"></div><div class="line">public void sendSmpleMail() throws Exception&#123;</div><div class="line">	SimpleMailMessage message = new SimpleMailMessage();</div><div class="line">	message.setFrom(&quot;testFrom@qq.com&quot;);</div><div class="line">	message.setTo(&quot;test@qq.com&quot;);</div><div class="line">	message.setSubject(&quot;主题&quot;);</div><div class="line">	message.setText(&quot;Test Mail&quot;);</div><div class="line"></div><div class="line">	mailSender.send(message);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
   </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+
+  
+
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
 
       
       
@@ -306,6 +278,8 @@ var unsplashConfig = {"gravity":"north"};
 var turnoffBackgroundImage = false;
 
 
+
+  turnoffBackgroundImage = true;
 
 
 var backgroundColor = "34495E";
