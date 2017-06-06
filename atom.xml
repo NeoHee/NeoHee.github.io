@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://edmongo.cn/"/>
-  <updated>2017-06-06T15:31:32.000Z</updated>
+  <updated>2017-06-06T15:34:20.000Z</updated>
   <id>http://edmongo.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://edmongo.cn/2017/06/06/SpringBoot-JavaMail/"/>
     <id>http://edmongo.cn/2017/06/06/SpringBoot-JavaMail/</id>
     <published>2017-06-06T15:29:43.000Z</published>
-    <updated>2017-06-06T15:31:32.000Z</updated>
+    <updated>2017-06-06T15:34:20.000Z</updated>
     
     <content type="html"><![CDATA[<p>###首先在Spring Boot的工程中的 pom.xml 中引入 spring-boot-starter-mail 依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;  </div><div class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-boot-starter-mail&lt;/artifactId&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
 <p>###然后以QQ邮箱为例，在 application.properties 中加入如下配置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">spring.mail.host=smtp.qq.com</div><div class="line">spring.mail.username=用户名  </div><div class="line">spring.mail.password=密码</div><div class="line">spring.mail.properties.mail.smtp.auth=true</div><div class="line">spring.mail.properties.mail.smtp.starttls.enable=true</div><div class="line">spring.mail.properties.mail.smtp.starttls.required=true</div></pre></td></tr></table></figure></p>
@@ -38,7 +38,7 @@
       <category term="Spring" scheme="http://edmongo.cn/categories/Spring/"/>
     
     
-      <category term="-Java" scheme="http://edmongo.cn/tags/Java/"/>
+      <category term="Java" scheme="http://edmongo.cn/tags/Java/"/>
     
   </entry>
   
