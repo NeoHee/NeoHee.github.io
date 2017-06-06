@@ -2,30 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://edmongo.cn/tags/index.html</loc>
+    <loc>http://edmongo.cn/2017/06/06/SpringBoot_JavaMail/</loc>
     
-    <lastmod>2017-06-06T14:03:45.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://edmongo.cn/tags/index-1.html</loc>
-    
-    <lastmod>2017-06-06T13:59:45.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://edmongo.cn/2017/06/05/hello-hexo/</loc>
-    
-    <lastmod>2017-06-05T08:18:44.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://edmongo.cn/2017/06/05/hello-world/</loc>
-    
-    <lastmod>2017-06-05T07:49:08.000Z</lastmod>
+    <lastmod>2017-06-06T15:26:41.000Z</lastmod>
     
   </url>
   
