@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://edmongo.cn/"/>
-  <updated>2017-06-08T08:07:51.000Z</updated>
+  <updated>2017-06-08T08:53:22.000Z</updated>
   <id>http://edmongo.cn/</id>
   
   <author>
@@ -14,6 +14,81 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一点JavaGC的认知</title>
+    <link href="http://edmongo.cn/2017/06/08/gc1/"/>
+    <id>http://edmongo.cn/2017/06/08/gc1/</id>
+    <published>2017-06-08T08:53:11.000Z</published>
+    <updated>2017-06-08T08:53:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1、开启GC日志（分析所使用的工具为LOG日志文件"><a href="#1、开启GC日志（分析所使用的工具为LOG日志文件" class="headerlink" title="1、开启GC日志（分析所使用的工具为LOG日志文件)"></a>1、开启GC日志（分析所使用的工具为LOG日志文件)</h3><p>-verbose:gc<br>-XX:+PrintGCDetails<br>-XX:+PrintGCDateStamps<br>-Xloggc:/path/gc.log<br>-XX:+UseGCLogFileRotation  启用GC日志文件的自动转储 (Since Java)<br>-XX:NumberOfGClogFiles=1  GC日志文件的循环数目 (Since Java)<br>-XX:GCLogFileSize=1M  控制GC日志文件的大小 (Since Java)<br>-XX:+PrintGC包含-verbose:gc<br>-XX:+PrintGCDetails //包含-XX:+PrintGC<br>只要设置-XX:+PrintGCDetails 就会自动带上-verbose:gc和-XX:+PrintGC</p>
+<p>-XX:+PrintGCDateStamps/-XX:+PrintGCTimeStamps 输出gc的触发时间<br>参数示例:<br>-XX:+PrintGCDetails -Xloggc:C:\Users\Administrator\Desktop\gc.log</p>
+<p>GC参数:<br>堆设置<br>-Xms :初始堆大小<br>-Xmx :最大堆大小<br>-XX:NewSize=n :设置年轻代大小<br>-XX:NewRatio=n: 设置年轻代和年老代的比值。如:为3，表示年轻代与年老代比值为1：3，年轻代占整个年轻代年老代和的1/4<br>-XX:SurvivorRatio=n :年轻代中Eden区与两个Survivor区的比值。注意Survivor区有两个。如：3，表示Eden：Survivor=3：2，一个Survivor区占整个年轻代的1/5<br>-XX:MaxPermSize=n :设置持久代大小<br>收集器设置  </p>
+<table>
+<thead>
+<tr>
+<th>指定方式</th>
+<th style="text-align:center">新生代GC</th>
+<th style="text-align:right">旧生代GC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-XX:+UseSerialGC</td>
+<td style="text-align:center">串行GC</td>
+<td style="text-align:right">串行GC</td>
+</tr>
+<tr>
+<td>-XX:+UseParallelGC</td>
+<td style="text-align:center">并行回收GC</td>
+<td style="text-align:right">并行GC</td>
+</tr>
+<tr>
+<td>-XX:+UseConeMarkSweepGC</td>
+<td style="text-align:center">并行GC</td>
+<td style="text-align:right">并发GC</td>
+</tr>
+<tr>
+<td>-XX:+UseParNewGC</td>
+<td style="text-align:center">并行GC</td>
+<td style="text-align:right">串行GC</td>
+</tr>
+<tr>
+<td>-XX:+UseParallelOldGC</td>
+<td style="text-align:center">并行回收GC</td>
+<td style="text-align:right">并行GC</td>
+</tr>
+<tr>
+<td>-XX:+UseConeMarkSweepGC<br>-XX:+UseParNewGC</td>
+<td style="text-align:center">串行GC</td>
+<td style="text-align:right">并发GC</td>
+</tr>
+<tr>
+<td>不支持组合</td>
+<td style="text-align:center">-XX:+UseParNewGC <br>-XX:+UseParallelOldGC</td>
+<td style="text-align:right">-XX:+UseParNewGC <br>-XX:+UseSerialGC</td>
+</tr>
+</tbody>
+</table>
+<p>-XX:+UseSerialGC : 指定JVM使用串行收集器  (新生代，老年代都使用串行回收收集器)<br>-XX:+UserParNewGC(新生代使用并行收集器，老年代使用串行回收收集器)<br>-XX:+UseParallelGC 指定JVM使用并行收集器  （新生代使用并行回收收集器，老年代使用串行收集器）<br>-XX:+UseParalledlOldGC :指定JVM使用并行年老代收集器 (新生代，老年代都是用并行回收收集器)<br>-XX:+UseConcMarkSweepGC :指定JVM使用并发收集器(新生代使用并行收集器，老年代使用串行收集器)<br>垃圾回收统计信息<br>-XX:+PrintHeapAtGC GC的heap详情<br>-XX:+PrintGCDetails  GC详情<br>-XX:+PrintGCTimeStamps  打印GC时间信息<br>-XX:+PrintTenuringDistribution    打印年龄信息等<br>-XX:+HandlePromotionFailure   老年代分配担保（true  or false）<br>并行收集器设置<br>-XX:ParallelGCThreads=n :设置并行收集器收集时使用的CPU数。并行收集线程数。<br>-XX:MaxGCPauseMillis=n :设置并行收集最大暂停时间<br>-XX:GCTimeRatio=n :设置垃圾回收时间占程序运行时间的百分比。公式为1/(1+n)<br>并发收集器设置<br>-XX:+CMSIncrementalMode :设置为增量模式。适用于单CPU情况。<br>-XX:ParallelGCThreads=n :设置并发收集器年轻代收集方式为并行收集时，使用的CPU数。并行收集线程数。</p>
+<h3 id="2、在log里面会得到这样的日志"><a href="#2、在log里面会得到这样的日志" class="headerlink" title="2、在log里面会得到这样的日志:"></a>2、在log里面会得到这样的日志:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Java HotSpot(TM) 64-Bit Server VM (25.91-b14) for windows-amd64 JRE (1.8.0_91-b14), built on Apr  1 2016 00:58:32 by &quot;java_re&quot; with MS VC++ 10.0 (VS2010)</div><div class="line">Memory: 4k page, physical 12499492k(4312872k free), swap 24997124k(15220376k free)</div><div class="line">CommandLine flags: -XX:InitialHeapSize=199991872 -XX:MaxHeapSize=3199869952 -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:-UseLargePagesIndividualAllocation -XX:+UseParallelGC </div><div class="line">Heap</div><div class="line"> PSYoungGen      total 57344K, used 7864K [0x0000000780700000, 0x0000000784700000, 0x00000007c0000000)</div><div class="line">  eden space 49152K, 16% used [0x0000000780700000,0x0000000780eae3e8,0x0000000783700000)</div><div class="line">  from space 8192K, 0% used [0x0000000783f00000,0x0000000783f00000,0x0000000784700000)</div><div class="line">  to   space 8192K, 0% used [0x0000000783700000,0x0000000783700000,0x0000000783f00000)</div><div class="line"> ParOldGen       total 131072K, used 0K [0x0000000701400000, 0x0000000709400000, 0x0000000780700000)</div><div class="line">  object space 131072K, 0% used [0x0000000701400000,0x0000000701400000,0x0000000709400000)</div><div class="line"> Metaspace       used 5461K, capacity 5520K, committed 5760K, reserved 1056768K</div><div class="line">  class space    used 614K, capacity 632K, committed 640K, reserved 1048576K</div></pre></td></tr></table></figure>
+<h3 id="3、然后把对应GClog丢到www-gceasy-io然后就可以看对应图标进行分析、这应该算是查看JVM开销最小的一种方式"><a href="#3、然后把对应GClog丢到www-gceasy-io然后就可以看对应图标进行分析、这应该算是查看JVM开销最小的一种方式" class="headerlink" title="3、然后把对应GClog丢到www.gceasy.io然后就可以看对应图标进行分析、这应该算是查看JVM开销最小的一种方式"></a>3、然后把对应GClog丢到www.gceasy.io然后就可以看对应图标进行分析、这应该算是查看JVM开销最小的一种方式</h3>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1、开启GC日志（分析所使用的工具为LOG日志文件&quot;&gt;&lt;a href=&quot;#1、开启GC日志（分析所使用的工具为LOG日志文件&quot; class=&quot;headerlink&quot; title=&quot;1、开启GC日志（分析所使用的工具为LOG日志文件)&quot;&gt;&lt;/a&gt;1、开启GC日志（分
+    
+    </summary>
+    
+      <category term="JVM" scheme="http://edmongo.cn/categories/JVM/"/>
+    
+    
+      <category term="Java" scheme="http://edmongo.cn/tags/Java/"/>
+    
+      <category term="Tomcat" scheme="http://edmongo.cn/tags/Tomcat/"/>
+    
+  </entry>
   
   <entry>
     <title>安装FreeSwitch</title>
