@@ -16,9 +16,9 @@
   
   
   
-    <meta name="description" content="###首先在Spring Boot的工程中的 pom.xml 中引入 spring-boot-starter-mail 依赖：1234&lt;dependency&gt;  	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;    &lt;artifactId&gt;spring-boot-starter-mail&lt;/art...">
+    <meta name="description" content="1、安装FreeSwitch的依赖（已CentOs为例）1yum -y install git autoconf automake nano libtool gcc-c++ ncurses-devel make expat-devel zlib zlib-devel libjpeg-devel unixODBC-devel openssl-devel gnutls-devel libogg-...">
   
-  <title>SpringBoot-JavaMail [ Lullaby长叶子 ]</title>
+  <title>安装FreeSwitch [ Lullaby长叶子 ]</title>
   
     <link rel="alternate" href="/atom.xml" title="Lullaby长叶子">
   
@@ -39,15 +39,15 @@
 <body>
 <div class="side-navigate hide-area">
   
-    <div class="item prev">
-      <a href="/2017/06/08/FreeSwitch/">
+  
+    <div class="item next">
+      <a href="/2017/06/06/SpringBoot-JavaMail/">
         <div class="item-icon"></div>
       </a>
       <div class="item-title">
-        安装FreeSwitch
+        SpringBoot-JavaMail
       </div>
     </div>
-  
   
 </div>
 <div id="outer-container" class="hide-area">
@@ -120,11 +120,11 @@
       
       
   <article id="post">
-    <h1>SpringBoot-JavaMail</h1>
+    <h1>安装FreeSwitch</h1>
     <p class="page-title-sub">
-      <span id = "post-title-date">Created at 2017-06-06</span>
+      <span id = "post-title-date">Created at 2017-06-08</span>
       
-        <span id = "post-title-updated">Updated at 2017-06-06</span>
+        <span id = "post-title-updated">Updated at 2017-06-08</span>
       
       
       <span id = "post-title-categories">Category
@@ -132,7 +132,7 @@
       
         
         
-        <a href="/categories/Spring/">Spring</a>
+        <a href="/categories/FreeSwitch/">FreeSwitch</a>
       
       </span>
       
@@ -143,36 +143,36 @@
       
         
         
-        <a href="/tags/Java/">Java</a>
+        <a href="/tags/Linux/">Linux</a>
       
       </span>
       
     </p>
     
-    <p>###首先在Spring Boot的工程中的 pom.xml 中引入 spring-boot-starter-mail 依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;  </div><div class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-boot-starter-mail&lt;/artifactId&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
-<p>###然后以QQ邮箱为例，在 application.properties 中加入如下配置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">spring.mail.host=smtp.qq.com</div><div class="line">spring.mail.username=用户名  </div><div class="line">spring.mail.password=密码</div><div class="line">spring.mail.properties.mail.smtp.auth=true</div><div class="line">spring.mail.properties.mail.smtp.starttls.enable=true</div><div class="line">spring.mail.properties.mail.smtp.starttls.required=true</div></pre></td></tr></table></figure></p>
-<p>####这样配置方面就完成了</p>
-<p>###通过测试来实现一封简单邮件的发送：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">@Autowired</div><div class="line">private JavaMailSender mailSender;</div><div class="line"></div><div class="line">public void sendSmpleMail() throws Exception&#123;</div><div class="line">	SimpleMailMessage message = new SimpleMailMessage();</div><div class="line">	message.setFrom(&quot;testFrom@qq.com&quot;);</div><div class="line">	message.setTo(&quot;test@qq.com&quot;);</div><div class="line">	message.setSubject(&quot;主题&quot;);</div><div class="line">	message.setText(&quot;Test Mail&quot;);</div><div class="line"></div><div class="line">	mailSender.send(message);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
+    <h3 id="1、安装FreeSwitch的依赖（已CentOs为例）"><a href="#1、安装FreeSwitch的依赖（已CentOs为例）" class="headerlink" title="1、安装FreeSwitch的依赖（已CentOs为例）"></a>1、安装FreeSwitch的依赖（已CentOs为例）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum -y install git autoconf automake nano libtool gcc-c++ ncurses-devel make expat-devel zlib zlib-devel libjpeg-devel unixODBC-devel openssl-devel gnutls-devel libogg-devel libvorbis-devel curl-devel libtiff-devel mysql-server php php-mysql php-posix php-gd php-xml subversion python-devel bzip2 sqlite-devel libcurl-devel pcre pcre-devel speex speex-devel libedit-devel bison</div></pre></td></tr></table></figure>
+<h3 id="2、安装FreeSwitch"><a href="#2、安装FreeSwitch" class="headerlink" title="2、安装FreeSwitch"></a>2、安装FreeSwitch</h3><p>git下载freeswitch v1.4版本代码，并移动到/usr/local/src目录<br><a href="https://freeswitch.org/stash/projects/FS/repos/freeswitch/browse" target="_blank" rel="external">https://freeswitch.org/stash/projects/FS/repos/freeswitch/browse</a><br><a href="https://freeswitch.org/stash/scm/fs/freeswitch.git" target="_blank" rel="external">https://freeswitch.org/stash/scm/fs/freeswitch.git</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">git clone -b v1.4 https://stash.freeswitch.org/scm/fs/freeswitch.git</div><div class="line">mv freeswitch/ /usr/local/src</div><div class="line"></div><div class="line">cd /usr/local/src/freeswitch</div><div class="line">./bootstrap.sh</div><div class="line">./configure --enable-core-odbc-support</div></pre></td></tr></table></figure>
+<p>修改module.conf文件，打开一些扩展，如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">applications/mod_blacklist</div><div class="line">applications/mod_callcenter</div><div class="line">applications/mod_curl</div><div class="line">applications/mod_spy</div><div class="line">applications/mod_directory</div><div class="line">applications/mod_distributor</div><div class="line">formats/mod_shout</div></pre></td></tr></table></figure></p>
+<p>开始编译文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root@localhost freeswitch]#./bootstrap.sh </div><div class="line">[root@localhost freeswitch]#./configure </div><div class="line">[root@localhost freeswitch]#make </div><div class="line">[root@localhost freeswitch]# make install </div><div class="line">[root@localhost freeswitch]#make all cd-sounds-install cd-moh-install</div></pre></td></tr></table></figure></p>
+<h3 id="3、启动freeswitch，不显示命令控制台。"><a href="#3、启动freeswitch，不显示命令控制台。" class="headerlink" title="3、启动freeswitch，不显示命令控制台。"></a>3、启动freeswitch，不显示命令控制台。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">freeswitch -nc</div></pre></td></tr></table></figure>
   </article>
   <div class="random-toc-area">
   <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
   <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
   <div class="random-toc">
     <h2>Table of Content</h2>
-    
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、安装FreeSwitch的依赖（已CentOs为例）"><span class="toc-text">1、安装FreeSwitch的依赖（已CentOs为例）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、安装FreeSwitch"><span class="toc-text">2、安装FreeSwitch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、启动freeswitch，不显示命令控制台。"><span class="toc-text">3、启动freeswitch，不显示命令控制台。</span></a></li></ol>
   </div>
 </div>
 
   
 <nav id="pagination">
   
-    <a href="/2017/06/08/FreeSwitch/" class="prev">&larr; Prev post 安装FreeSwitch</a>
-  
 
   
 
+  
+    <a href="/2017/06/06/SpringBoot-JavaMail/" class="next">Next post SpringBoot-JavaMail &rarr;</a>
   
 </nav>
 

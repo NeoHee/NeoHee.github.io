@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://edmongo.cn/"/>
-  <updated>2017-06-06T15:34:20.000Z</updated>
+  <updated>2017-06-08T08:07:51.000Z</updated>
   <id>http://edmongo.cn/</id>
   
   <author>
@@ -14,6 +14,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>安装FreeSwitch</title>
+    <link href="http://edmongo.cn/2017/06/08/FreeSwitch/"/>
+    <id>http://edmongo.cn/2017/06/08/FreeSwitch/</id>
+    <published>2017-06-08T07:33:35.000Z</published>
+    <updated>2017-06-08T08:07:51.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1、安装FreeSwitch的依赖（已CentOs为例）"><a href="#1、安装FreeSwitch的依赖（已CentOs为例）" class="headerlink" title="1、安装FreeSwitch的依赖（已CentOs为例）"></a>1、安装FreeSwitch的依赖（已CentOs为例）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum -y install git autoconf automake nano libtool gcc-c++ ncurses-devel make expat-devel zlib zlib-devel libjpeg-devel unixODBC-devel openssl-devel gnutls-devel libogg-devel libvorbis-devel curl-devel libtiff-devel mysql-server php php-mysql php-posix php-gd php-xml subversion python-devel bzip2 sqlite-devel libcurl-devel pcre pcre-devel speex speex-devel libedit-devel bison</div></pre></td></tr></table></figure>
+<h3 id="2、安装FreeSwitch"><a href="#2、安装FreeSwitch" class="headerlink" title="2、安装FreeSwitch"></a>2、安装FreeSwitch</h3><p>git下载freeswitch v1.4版本代码，并移动到/usr/local/src目录<br><a href="https://freeswitch.org/stash/projects/FS/repos/freeswitch/browse" target="_blank" rel="external">https://freeswitch.org/stash/projects/FS/repos/freeswitch/browse</a><br><a href="https://freeswitch.org/stash/scm/fs/freeswitch.git" target="_blank" rel="external">https://freeswitch.org/stash/scm/fs/freeswitch.git</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">git clone -b v1.4 https://stash.freeswitch.org/scm/fs/freeswitch.git</div><div class="line">mv freeswitch/ /usr/local/src</div><div class="line"></div><div class="line">cd /usr/local/src/freeswitch</div><div class="line">./bootstrap.sh</div><div class="line">./configure --enable-core-odbc-support</div></pre></td></tr></table></figure>
+<p>修改module.conf文件，打开一些扩展，如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">applications/mod_blacklist</div><div class="line">applications/mod_callcenter</div><div class="line">applications/mod_curl</div><div class="line">applications/mod_spy</div><div class="line">applications/mod_directory</div><div class="line">applications/mod_distributor</div><div class="line">formats/mod_shout</div></pre></td></tr></table></figure></p>
+<p>开始编译文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root@localhost freeswitch]#./bootstrap.sh </div><div class="line">[root@localhost freeswitch]#./configure </div><div class="line">[root@localhost freeswitch]#make </div><div class="line">[root@localhost freeswitch]# make install </div><div class="line">[root@localhost freeswitch]#make all cd-sounds-install cd-moh-install</div></pre></td></tr></table></figure></p>
+<h3 id="3、启动freeswitch，不显示命令控制台。"><a href="#3、启动freeswitch，不显示命令控制台。" class="headerlink" title="3、启动freeswitch，不显示命令控制台。"></a>3、启动freeswitch，不显示命令控制台。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">freeswitch -nc</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1、安装FreeSwitch的依赖（已CentOs为例）&quot;&gt;&lt;a href=&quot;#1、安装FreeSwitch的依赖（已CentOs为例）&quot; class=&quot;headerlink&quot; title=&quot;1、安装FreeSwitch的依赖（已CentOs为例）&quot;&gt;&lt;/a&gt;1、
+    
+    </summary>
+    
+      <category term="FreeSwitch" scheme="http://edmongo.cn/categories/FreeSwitch/"/>
+    
+    
+      <category term="Linux" scheme="http://edmongo.cn/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>SpringBoot-JavaMail</title>
