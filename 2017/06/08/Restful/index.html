@@ -16,8 +16,8 @@
   
   
   
-    <meta name="description" content="浅尝Restful风格简单的理解，Restful是一种URL_风格_,或者说是_规范_,在以前的网址中，假定一个业务取得数据网址为&lt;http://demo/get&gt;，添加信息的网址为&lt;http://demo/post&gt;，类似这样。
-但是在Restful风格中；取得数据和添加数据均应为&lt;http://demo&gt;,方法为get或者post;所以，在Restfu...">
+    <meta name="description" content="浅尝Restful风格简单的理解，Restful是一种URL风格,或者说是规范,在以前的网址中，假定一个业务取得数据网址为http://demo/get，添加信息的网址为http://demo/post，类似这样。但是在Restful风格中；取得数据和添加数据均应为http://demo,方法为get或者post;所以，在Restful风格里面，一个网址就是一个资源；
+其形式类似于http:...">
   
   <title>关于Restful的一点认知 [ Lullaby长叶子 ]</title>
   
@@ -156,15 +156,12 @@
       
     </p>
     
-    <h3 id="浅尝Restful风格"><a href="#浅尝Restful风格" class="headerlink" title="浅尝Restful风格"></a>浅尝Restful风格</h3><pre><code>简单的理解，Restful是一种URL_风格_,或者说是_规范_,在以前的网址中，假定一个业务取得数据网址为&lt;http://demo/get&gt;，添加信息的网址为&lt;http://demo/post&gt;，类似这样。
-但是在Restful风格中；取得数据和添加数据均应为&lt;http://demo&gt;,方法为get或者post;所以，在Restful风格里面，一个网址就是一个资源；
+    <h3 id="浅尝Restful风格"><a href="#浅尝Restful风格" class="headerlink" title="浅尝Restful风格"></a>浅尝Restful风格</h3><p>简单的理解，Restful是一种URL<em>风格</em>,或者说是<em>规范</em>,在以前的网址中，假定一个业务取得数据网址为<a href="http://demo/get" target="_blank" rel="external">http://demo/get</a>，添加信息的网址为<a href="http://demo/post" target="_blank" rel="external">http://demo/post</a>，类似这样。<br>但是在Restful风格中；取得数据和添加数据均应为<a href="http://demo" target="_blank" rel="external">http://demo</a>,方法为get或者post;所以，在Restful风格里面，一个网址就是一个资源；</p>
+<p>其形式类似于<a href="http://xxx.com/xx/{id}/{id}" target="_blank" rel="external">http://xxx.com/xx/{id}/{id}</a>,例如某购物网站，产品有很多种类，每种产品下有很多子类型，那么<a href="http://shopping.com/top/apple/A103" target="_blank" rel="external">http://shopping.com/top/apple/A103</a> 代表了苹果A103型号电脑，而<a href="http://shopping.com/top/hp/1033" target="_blank" rel="external">http://shopping.com/top/hp/1033</a>代表了1033型号电脑</p>
+<p>在SpringMVC中。有@RequestParm,@RequestBody,@PathVariable三种注解来获取浏览器端的参数，其中前两种都是取Post方式传输机进来的参数，而@PathVariable则是从网址中取得参数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@Requestmapping（value=&quot;/&#123;category&#125;/&#123;brand&#125;/&#123;id&#125;,method=RequestMethod.POST）</div><div class="line">public void getInfoByID(@PathVariable(&quot;category&quot;) String category</div><div class="line">                                     @PathVariable(&quot;brand&quot;) String brand</div><div class="line">                                     @PathVariable(&quot;id&quot;) String id)&#123;</div><div class="line">                                     //具体业务逻辑实现</div><div class="line">                                     &#125;</div></pre></td></tr></table></figure>
+<p>在上述代码中，访问<a href="http://shopping.com/top/hp/1033" target="_blank" rel="external">http://shopping.com/top/hp/1033</a>网址时，则，category为“top”，brand为”hp”,id为”1033”；所以说，在restful风格中，一个网址即表示了一个资源。</p>
 
-其形式类似于&lt;http://xxx.com/xx/{id}/{id}&gt;,例如某购物网站，产品有很多种类，每种产品下有很多子类型，那么&lt;http://shopping.com/top/apple/A103&gt; 代表了苹果A103型号电脑，而&lt;http://shopping.com/top/hp/1033&gt;代表了1033型号电脑
-
-在SpringMVC中。有@RequestParm,@RequestBody,@PathVariable三种注解来获取浏览器端的参数，其中前两种都是取Post方式传输机进来的参数，而@PathVariable则是从网址中取得参数:
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@Requestmapping（value=&quot;/&#123;category&#125;/&#123;brand&#125;/&#123;id&#125;,method=RequestMethod.POST）</div><div class="line">public void getInfoByID(@PathVariable(&quot;category&quot;) String category</div><div class="line">                                     @PathVariable(&quot;brand&quot;) String brand</div><div class="line">                                     @PathVariable(&quot;id&quot;) String id)&#123;</div><div class="line">                                     //具体业务逻辑实现</div><div class="line">                                     &#125;</div></pre></td></tr></table></figure>
-<pre><code>在上述代码中，访问&lt;http://shopping.com/top/hp/1033&gt;网址时，则，category为“top”，brand为”hp”,id为”1033”；所以说，在restful风格中，一个网址即表示了一个资源。
-</code></pre>
   </article>
   <div class="random-toc-area">
   <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
