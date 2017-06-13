@@ -2,23 +2,44 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://edmongo.cn/2017/06/08/Restful/</loc>
+    
+    <lastmod>2017-06-13T10:05:54.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://edmongo.cn/2017/06/13/SendMailShell/</loc>
     
-    <lastmod>2017-06-13T09:56:11.000Z</lastmod>
+    <lastmod>2017-06-13T10:05:37.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://edmongo.cn/2017/06/08/GCList/</loc>
+    
+    <lastmod>2017-06-13T10:03:15.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://edmongo.cn/2017/06/13/Xml-SpringBoot/</loc>
     
-    <lastmod>2017-06-13T09:43:07.000Z</lastmod>
+    <lastmod>2017-06-13T10:02:45.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://edmongo.cn/2017/06/08/Restful/</loc>
+    <loc>http://edmongo.cn/2017/06/06/SpringBoot-JavaMail/</loc>
     
-    <lastmod>2017-06-12T02:36:26.000Z</lastmod>
+    <lastmod>2017-06-13T10:02:22.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://edmongo.cn/2017/06/08/FreeSwitch/</loc>
+    
+    <lastmod>2017-06-13T09:59:56.000Z</lastmod>
     
   </url>
   
@@ -26,20 +47,6 @@
     <loc>http://edmongo.cn/about/index.html</loc>
     
     <lastmod>2017-06-08T09:18:17.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://edmongo.cn/2017/06/08/gc1/</loc>
-    
-    <lastmod>2017-06-08T08:53:22.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://edmongo.cn/2017/06/08/FreeSwitch/</loc>
-    
-    <lastmod>2017-06-08T08:07:51.000Z</lastmod>
     
   </url>
   
@@ -54,13 +61,6 @@
     <loc>http://edmongo.cn/categories/index.html</loc>
     
     <lastmod>2017-06-07T09:35:52.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://edmongo.cn/2017/06/06/SpringBoot-JavaMail/</loc>
-    
-    <lastmod>2017-06-06T15:34:20.000Z</lastmod>
     
   </url>
   

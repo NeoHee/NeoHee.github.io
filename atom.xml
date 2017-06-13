@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://edmongo.cn/"/>
-  <updated>2017-06-13T09:56:11.000Z</updated>
+  <updated>2017-06-13T10:05:37.000Z</updated>
   <id>http://edmongo.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://edmongo.cn/2017/06/13/SendMailShell/"/>
     <id>http://edmongo.cn/2017/06/13/SendMailShell/</id>
     <published>2017-06-13T09:37:39.000Z</published>
-    <updated>2017-06-13T09:56:11.000Z</updated>
+    <updated>2017-06-13T10:05:37.000Z</updated>
     
     <content type="html"><![CDATA[<p><link rel="stylesheet" href="https://sf-static.b0.upaiyun.com/v-576b52d9/3rd/highlightjs/styles/solarized_light.css"></p>
 <script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js">        </script>  
@@ -44,14 +44,14 @@
     
     </summary>
     
-      <category term="Script" scheme="http://edmongo.cn/categories/Script/"/>
+      <category term="Shell" scheme="http://edmongo.cn/categories/Shell/"/>
+    
+      <category term="Python" scheme="http://edmongo.cn/categories/Shell/Python/"/>
+    
+      <category term="Linux" scheme="http://edmongo.cn/categories/Shell/Python/Linux/"/>
     
     
-      <category term="Linux" scheme="http://edmongo.cn/tags/Linux/"/>
-    
-      <category term="Shell" scheme="http://edmongo.cn/tags/Shell/"/>
-    
-      <category term="Python" scheme="http://edmongo.cn/tags/Python/"/>
+      <category term="Script" scheme="http://edmongo.cn/tags/Script/"/>
     
   </entry>
   
@@ -60,7 +60,7 @@
     <link href="http://edmongo.cn/2017/06/13/Xml-SpringBoot/"/>
     <id>http://edmongo.cn/2017/06/13/Xml-SpringBoot/</id>
     <published>2017-06-13T08:00:39.000Z</published>
-    <updated>2017-06-13T09:43:07.000Z</updated>
+    <updated>2017-06-13T10:02:45.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="首先在pom文件中引入的jar包"><a href="#首先在pom文件中引入的jar包" class="headerlink" title="首先在pom文件中引入的jar包:"></a>首先在pom文件中引入的jar包:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 配置XML --&gt;</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;com.fasterxml.jackson.dataformat&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;jackson-dataformat-xml&lt;/artifactId&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
 <h4 id="当然有这个是不够的-还需要做一些配置，下面是以Spring-boot中配置HttpMessageConverters为例子"><a href="#当然有这个是不够的-还需要做一些配置，下面是以Spring-boot中配置HttpMessageConverters为例子" class="headerlink" title="当然有这个是不够的,还需要做一些配置，下面是以Spring boot中配置HttpMessageConverters为例子"></a>当然有这个是不够的,还需要做一些配置，下面是以Spring boot中配置HttpMessageConverters为例子</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Bean</div><div class="line">public HttpMessageConverters fastJsonHttpMessageConverters() &#123;</div><div class="line">   //MappingJackson2XmlHttpMessageConverter xmlConverter = new MappingJackson2XmlHttpMessageConverter();</div><div class="line">   Jaxb2RootElementHttpMessageConverter xmlConverter = new Jaxb2RootElementHttpMessageConverter();</div><div class="line">   HttpMessageConverter&lt;?&gt; converter = xmlConverter;</div><div class="line">   return new HttpMessageConverters(converter);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -77,48 +77,19 @@
     
     </summary>
     
-      <category term="Spring Boot" scheme="http://edmongo.cn/categories/Spring-Boot/"/>
+      <category term="Java" scheme="http://edmongo.cn/categories/Java/"/>
     
     
-      <category term="Java" scheme="http://edmongo.cn/tags/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于Restful的一点认知</title>
-    <link href="http://edmongo.cn/2017/06/08/Restful/"/>
-    <id>http://edmongo.cn/2017/06/08/Restful/</id>
-    <published>2017-06-08T08:53:11.000Z</published>
-    <updated>2017-06-12T02:36:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="浅尝Restful风格"><a href="#浅尝Restful风格" class="headerlink" title="浅尝Restful风格"></a>浅尝Restful风格</h3><p>简单的理解，Restful是一种URL<em>风格</em>,或者说是<em>规范</em>,在以前的网址中，假定一个业务取得数据网址为<a href="http://demo/get" target="_blank" rel="external">http://demo/get</a>，添加信息的网址为<a href="http://demo/post" target="_blank" rel="external">http://demo/post</a>，类似这样。<br>但是在Restful风格中；取得数据和添加数据均应为<a href="http://demo" target="_blank" rel="external">http://demo</a>,方法为get或者post;所以，在Restful风格里面，一个网址就是一个资源；</p>
-<p>其形式类似于<a href="http://xxx.com/xx/{id}/{id}" target="_blank" rel="external">http://xxx.com/xx/{id}/{id}</a>,例如某购物网站，产品有很多种类，每种产品下有很多子类型，那么<a href="http://shopping.com/top/apple/A103" target="_blank" rel="external">http://shopping.com/top/apple/A103</a> 代表了苹果A103型号电脑，而<a href="http://shopping.com/top/hp/1033" target="_blank" rel="external">http://shopping.com/top/hp/1033</a>代表了1033型号电脑</p>
-<p>在SpringMVC中。有@RequestParm,@RequestBody,@PathVariable三种注解来获取浏览器端的参数，其中前两种都是取Post方式传输机进来的参数，而@PathVariable则是从网址中取得参数:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@Requestmapping（value=&quot;/&#123;category&#125;/&#123;brand&#125;/&#123;id&#125;,method=RequestMethod.POST）</div><div class="line">public void getInfoByID(@PathVariable(&quot;category&quot;) String category</div><div class="line">                                     @PathVariable(&quot;brand&quot;) String brand</div><div class="line">                                     @PathVariable(&quot;id&quot;) String id)&#123;</div><div class="line">                                     //具体业务逻辑实现</div><div class="line">                                     &#125;</div></pre></td></tr></table></figure>
-<p>在上述代码中，访问<a href="http://shopping.com/top/hp/1033" target="_blank" rel="external">http://shopping.com/top/hp/1033</a>网址时，则，category为“top”，brand为”hp”,id为”1033”；所以说，在restful风格中，一个网址即表示了一个资源。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;浅尝Restful风格&quot;&gt;&lt;a href=&quot;#浅尝Restful风格&quot; class=&quot;headerlink&quot; title=&quot;浅尝Restful风格&quot;&gt;&lt;/a&gt;浅尝Restful风格&lt;/h3&gt;&lt;p&gt;简单的理解，Restful是一种URL&lt;em&gt;风格&lt;/em&gt;,或者说
-    
-    </summary>
-    
-      <category term="Spring" scheme="http://edmongo.cn/categories/Spring/"/>
-    
-      <category term="Restful" scheme="http://edmongo.cn/categories/Spring/Restful/"/>
-    
-    
-      <category term="Java" scheme="http://edmongo.cn/tags/Java/"/>
+      <category term="Spring Boot" scheme="http://edmongo.cn/tags/Spring-Boot/"/>
     
   </entry>
   
   <entry>
     <title>一点JavaGC的认知</title>
-    <link href="http://edmongo.cn/2017/06/08/gc1/"/>
-    <id>http://edmongo.cn/2017/06/08/gc1/</id>
+    <link href="http://edmongo.cn/2017/06/08/GCList/"/>
+    <id>http://edmongo.cn/2017/06/08/GCList/</id>
     <published>2017-06-08T08:53:11.000Z</published>
-    <updated>2017-06-08T08:53:22.000Z</updated>
+    <updated>2017-06-13T10:03:15.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="1、开启GC日志（分析所使用的工具为LOG日志文件"><a href="#1、开启GC日志（分析所使用的工具为LOG日志文件" class="headerlink" title="1、开启GC日志（分析所使用的工具为LOG日志文件)"></a>1、开启GC日志（分析所使用的工具为LOG日志文件)</h3><p>-verbose:gc<br>-XX:+PrintGCDetails<br>-XX:+PrintGCDateStamps<br>-Xloggc:/path/gc.log<br>-XX:+UseGCLogFileRotation  启用GC日志文件的自动转储 (Since Java)<br>-XX:NumberOfGClogFiles=1  GC日志文件的循环数目 (Since Java)<br>-XX:GCLogFileSize=1M  控制GC日志文件的大小 (Since Java)<br>-XX:+PrintGC包含-verbose:gc<br>-XX:+PrintGCDetails //包含-XX:+PrintGC<br>只要设置-XX:+PrintGCDetails 就会自动带上-verbose:gc和-XX:+PrintGC</p>
 <p>-XX:+PrintGCDateStamps/-XX:+PrintGCTimeStamps 输出gc的触发时间<br>参数示例:<br>-XX:+PrintGCDetails -Xloggc:C:\Users\Administrator\Desktop\gc.log</p>
@@ -179,12 +150,41 @@
     
     </summary>
     
-      <category term="JVM" scheme="http://edmongo.cn/categories/JVM/"/>
+      <category term="Java" scheme="http://edmongo.cn/categories/Java/"/>
+    
+      <category term="Tomcat" scheme="http://edmongo.cn/categories/Java/Tomcat/"/>
     
     
-      <category term="Java" scheme="http://edmongo.cn/tags/Java/"/>
+      <category term="JVM" scheme="http://edmongo.cn/tags/JVM/"/>
     
-      <category term="Tomcat" scheme="http://edmongo.cn/tags/Tomcat/"/>
+  </entry>
+  
+  <entry>
+    <title>关于Restful的一点认知</title>
+    <link href="http://edmongo.cn/2017/06/08/Restful/"/>
+    <id>http://edmongo.cn/2017/06/08/Restful/</id>
+    <published>2017-06-08T08:53:11.000Z</published>
+    <updated>2017-06-13T10:05:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="浅尝Restful风格"><a href="#浅尝Restful风格" class="headerlink" title="浅尝Restful风格"></a>浅尝Restful风格</h3><p>简单的理解，Restful是一种URL<em>风格</em>,或者说是<em>规范</em>,在以前的网址中，假定一个业务取得数据网址为<a href="http://demo/get" target="_blank" rel="external">http://demo/get</a>，添加信息的网址为<a href="http://demo/post" target="_blank" rel="external">http://demo/post</a>，类似这样。<br>但是在Restful风格中；取得数据和添加数据均应为<a href="http://demo" target="_blank" rel="external">http://demo</a>,方法为get或者post;所以，在Restful风格里面，一个网址就是一个资源；</p>
+<p>其形式类似于<a href="http://xxx.com/xx/{id}/{id}" target="_blank" rel="external">http://xxx.com/xx/{id}/{id}</a>,例如某购物网站，产品有很多种类，每种产品下有很多子类型，那么<a href="http://shopping.com/top/apple/A103" target="_blank" rel="external">http://shopping.com/top/apple/A103</a> 代表了苹果A103型号电脑，而<a href="http://shopping.com/top/hp/1033" target="_blank" rel="external">http://shopping.com/top/hp/1033</a>代表了1033型号电脑</p>
+<p>在SpringMVC中。有@RequestParm,@RequestBody,@PathVariable三种注解来获取浏览器端的参数，其中前两种都是取Post方式传输机进来的参数，而@PathVariable则是从网址中取得参数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@Requestmapping（value=&quot;/&#123;category&#125;/&#123;brand&#125;/&#123;id&#125;,method=RequestMethod.POST）</div><div class="line">public void getInfoByID(@PathVariable(&quot;category&quot;) String category</div><div class="line">                                     @PathVariable(&quot;brand&quot;) String brand</div><div class="line">                                     @PathVariable(&quot;id&quot;) String id)&#123;</div><div class="line">                                     //具体业务逻辑实现</div><div class="line">                                     &#125;</div></pre></td></tr></table></figure>
+<p>在上述代码中，访问<a href="http://shopping.com/top/hp/1033" target="_blank" rel="external">http://shopping.com/top/hp/1033</a>网址时，则，category为“top”，brand为”hp”,id为”1033”；所以说，在restful风格中，一个网址即表示了一个资源。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;浅尝Restful风格&quot;&gt;&lt;a href=&quot;#浅尝Restful风格&quot; class=&quot;headerlink&quot; title=&quot;浅尝Restful风格&quot;&gt;&lt;/a&gt;浅尝Restful风格&lt;/h3&gt;&lt;p&gt;简单的理解，Restful是一种URL&lt;em&gt;风格&lt;/em&gt;,或者说
+    
+    </summary>
+    
+      <category term="Java" scheme="http://edmongo.cn/categories/Java/"/>
+    
+    
+      <category term="Restful" scheme="http://edmongo.cn/tags/Restful/"/>
+    
+      <category term="Spring" scheme="http://edmongo.cn/tags/Spring/"/>
     
   </entry>
   
@@ -193,14 +193,15 @@
     <link href="http://edmongo.cn/2017/06/08/FreeSwitch/"/>
     <id>http://edmongo.cn/2017/06/08/FreeSwitch/</id>
     <published>2017-06-08T07:33:35.000Z</published>
-    <updated>2017-06-08T08:07:51.000Z</updated>
+    <updated>2017-06-13T09:59:56.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="1、安装FreeSwitch的依赖（已CentOs为例）"><a href="#1、安装FreeSwitch的依赖（已CentOs为例）" class="headerlink" title="1、安装FreeSwitch的依赖（已CentOs为例）"></a>1、安装FreeSwitch的依赖（已CentOs为例）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum -y install git autoconf automake nano libtool gcc-c++ ncurses-devel make expat-devel zlib zlib-devel libjpeg-devel unixODBC-devel openssl-devel gnutls-devel libogg-devel libvorbis-devel curl-devel libtiff-devel mysql-server php php-mysql php-posix php-gd php-xml subversion python-devel bzip2 sqlite-devel libcurl-devel pcre pcre-devel speex speex-devel libedit-devel bison</div></pre></td></tr></table></figure>
 <h3 id="2、安装FreeSwitch"><a href="#2、安装FreeSwitch" class="headerlink" title="2、安装FreeSwitch"></a>2、安装FreeSwitch</h3><p>git下载freeswitch v1.4版本代码，并移动到/usr/local/src目录<br><a href="https://freeswitch.org/stash/projects/FS/repos/freeswitch/browse" target="_blank" rel="external">https://freeswitch.org/stash/projects/FS/repos/freeswitch/browse</a><br><a href="https://freeswitch.org/stash/scm/fs/freeswitch.git" target="_blank" rel="external">https://freeswitch.org/stash/scm/fs/freeswitch.git</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">git clone -b v1.4 https://stash.freeswitch.org/scm/fs/freeswitch.git</div><div class="line">mv freeswitch/ /usr/local/src</div><div class="line"></div><div class="line">cd /usr/local/src/freeswitch</div><div class="line">./bootstrap.sh</div><div class="line">./configure --enable-core-odbc-support</div></pre></td></tr></table></figure>
 <p>修改module.conf文件，打开一些扩展，如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">applications/mod_blacklist</div><div class="line">applications/mod_callcenter</div><div class="line">applications/mod_curl</div><div class="line">applications/mod_spy</div><div class="line">applications/mod_directory</div><div class="line">applications/mod_distributor</div><div class="line">formats/mod_shout</div></pre></td></tr></table></figure></p>
 <p>开始编译文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root@localhost freeswitch]#./bootstrap.sh </div><div class="line">[root@localhost freeswitch]#./configure </div><div class="line">[root@localhost freeswitch]#make </div><div class="line">[root@localhost freeswitch]# make install </div><div class="line">[root@localhost freeswitch]#make all cd-sounds-install cd-moh-install</div></pre></td></tr></table></figure></p>
-<h3 id="3、启动freeswitch，不显示命令控制台。"><a href="#3、启动freeswitch，不显示命令控制台。" class="headerlink" title="3、启动freeswitch，不显示命令控制台。"></a>3、启动freeswitch，不显示命令控制台。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">freeswitch -nc</div></pre></td></tr></table></figure>]]></content>
+<h3 id="3、启动freeswitch，不显示命令控制台。"><a href="#3、启动freeswitch，不显示命令控制台。" class="headerlink" title="3、启动freeswitch，不显示命令控制台。"></a>3、启动freeswitch，不显示命令控制台。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">freeswitch -nc</div></pre></td></tr></table></figure>
+]]></content>
     
     <summary type="html">
     
@@ -208,10 +209,10 @@
     
     </summary>
     
-      <category term="FreeSwitch" scheme="http://edmongo.cn/categories/FreeSwitch/"/>
+      <category term="Linux" scheme="http://edmongo.cn/categories/Linux/"/>
     
     
-      <category term="Linux" scheme="http://edmongo.cn/tags/Linux/"/>
+      <category term="FreeSwitch" scheme="http://edmongo.cn/tags/FreeSwitch/"/>
     
   </entry>
   
@@ -220,7 +221,7 @@
     <link href="http://edmongo.cn/2017/06/06/SpringBoot-JavaMail/"/>
     <id>http://edmongo.cn/2017/06/06/SpringBoot-JavaMail/</id>
     <published>2017-06-06T15:29:43.000Z</published>
-    <updated>2017-06-06T15:34:20.000Z</updated>
+    <updated>2017-06-13T10:02:22.000Z</updated>
     
     <content type="html"><![CDATA[<p>###首先在Spring Boot的工程中的 pom.xml 中引入 spring-boot-starter-mail 依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;  </div><div class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-boot-starter-mail&lt;/artifactId&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
 <p>###然后以QQ邮箱为例，在 application.properties 中加入如下配置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">spring.mail.host=smtp.qq.com</div><div class="line">spring.mail.username=用户名  </div><div class="line">spring.mail.password=密码</div><div class="line">spring.mail.properties.mail.smtp.auth=true</div><div class="line">spring.mail.properties.mail.smtp.starttls.enable=true</div><div class="line">spring.mail.properties.mail.smtp.starttls.required=true</div></pre></td></tr></table></figure></p>
@@ -235,10 +236,10 @@
     
     </summary>
     
-      <category term="Spring" scheme="http://edmongo.cn/categories/Spring/"/>
+      <category term="Java" scheme="http://edmongo.cn/categories/Java/"/>
     
     
-      <category term="Java" scheme="http://edmongo.cn/tags/Java/"/>
+      <category term="Srping" scheme="http://edmongo.cn/tags/Srping/"/>
     
   </entry>
   
