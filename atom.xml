@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://edmongo.cn/"/>
-  <updated>2017-06-13T09:46:51.000Z</updated>
+  <updated>2017-06-13T09:56:11.000Z</updated>
   <id>http://edmongo.cn/</id>
   
   <author>
@@ -17,79 +17,24 @@
   
   <entry>
     <title>简易脚本备份数据库到邮箱</title>
-    <link href="http://edmongo.cn/2017/06/13/SendmailShell/"/>
-    <id>http://edmongo.cn/2017/06/13/SendmailShell/</id>
+    <link href="http://edmongo.cn/2017/06/13/SendMailShell/"/>
+    <id>http://edmongo.cn/2017/06/13/SendMailShell/</id>
     <published>2017-06-13T09:37:39.000Z</published>
-    <updated>2017-06-13T09:46:51.000Z</updated>
+    <updated>2017-06-13T09:56:11.000Z</updated>
     
     <content type="html"><![CDATA[<p><link rel="stylesheet" href="https://sf-static.b0.upaiyun.com/v-576b52d9/3rd/highlightjs/styles/solarized_light.css"></p>
 <script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js">        </script>  
 <script>hljs.initHighlightingOnLoad();</script>
 
-<h3 id="因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。"><a href="#因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。" class="headerlink" title="因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。"></a>因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。</h3><pre><code>首先创建一个copySql.sh
-
-mysqldump -h120.0.0.1 -uroot -P3306 -ppws --databases 数据库名字（多个数据库用空格隔开） &gt; /usr/local/src/mysqlBackups/database_`date &apos;+%Y-%m-%d&apos;`.sql
+<h3 id="因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。"><a href="#因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。" class="headerlink" title="因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。"></a>因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。</h3><p>首先创建一个copySql.sh</p>
+<pre><code>mysqldump -h120.0.0.1 -uroot -P3306 -ppws --databases 数据库名字（多个数据库用空格隔开） &gt; /usr/local/src/mysqlBackups/database_`date &apos;+%Y-%m-%d&apos;`.sql
 </code></pre><h5 id="备份数据库，并且导成文件到某个文件夹"><a href="#备份数据库，并且导成文件到某个文件夹" class="headerlink" title="备份数据库，并且导成文件到某个文件夹"></a>备份数据库，并且导成文件到某个文件夹</h5><hr>
 <h3 id="使用脚本发送邮件到自己邮箱"><a href="#使用脚本发送邮件到自己邮箱" class="headerlink" title="使用脚本发送邮件到自己邮箱"></a>使用脚本发送邮件到自己邮箱</h3><pre><code>首次创建一个文件sendMail.py   (Pythone3)
-
-
-import sys,os,re,urllib
-import smtplib
-import traceback
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.application import MIMEApplication
-from time import strftime,gmtime
-def sendMail(subject,msg,toaddr,fromaddr,smtpaddr,password):
-&apos;&apos;&apos;&apos;&apos;
-    @subject:邮件主题
-    @msg:邮件内容
-    @toaddr:收信人地址
-    @fromaddr:发信人地址
-    @smtpaddr:SMTP服务地址
-    @password:密码
-&apos;&apos;&apos;
-mail_msg = MIMEMultipart()
-#if not isinstance(subject,unicode):
-    #subject = unicode(subject,&apos;utf-8&apos;)
-mail_msg[&apos;Subject&apos;] = subject
-mail_msg[&apos;From&apos;] = fromaddr
-mail_msg[&apos;To&apos;] = &apos;,&apos;.join(toaddr)
-mail_msg.attach(MIMEText(msg,&apos;html&apos;,&apos;utf-8&apos;))
-#database_2017-06-05.sql  文件格式
-time = strftime(&quot;%Y-%m-%d&quot;, gmtime())
-string = &quot;database_&quot;+time+&quot;.sql&quot;
-#添加附件 
-part = MIMEApplication(open(&apos;/usr/local/src/mysqlBackups/&apos;+string,&apos;rb&apos;).read())  
-part.add_header(&apos;Content-Disposition&apos;, &apos;attachment&apos;, filename=string)  
-mail_msg.attach(part)
-try:
-    s = smtplib.SMTP_SSL(smtpaddr, 465)
-    s.login(fromaddr,password)
-    s.sendmail(fromaddr,toaddr,mail_msg.as_string())
-    s.quit()
-    print(&quot;Send Over!&quot;)
-except Exception as e:
-    print(&quot;Error : unable to send email!&quot;)
-    print (traceback.format_exc())
-if __name__ == &apos;__main__&apos;:
-    fromaddr = &quot;XXXXXX@qq.com&quot;
-    smtpaddr = &quot;smtp.qq.com&quot;
-    toaddr = [&quot;XXXX@hotmail.com&quot;]
-    subject = &quot;XXXX数据库备份----请查看附件&quot;
-    password = &quot;123456&quot;
-    msg = &quot;附件XXX数据库备份&quot;
-    sendMail(subject, msg, toaddr, fromaddr, smtpaddr, password)
-</code></pre><hr>
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys,os,re,urllib</div><div class="line"><span class="keyword">import</span> smtplib</div><div class="line"><span class="keyword">import</span> traceback</div><div class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</div><div class="line"><span class="keyword">from</span> email.mime.multipart <span class="keyword">import</span> MIMEMultipart</div><div class="line"><span class="keyword">from</span> email.mime.application <span class="keyword">import</span> MIMEApplication</div><div class="line"><span class="keyword">from</span> time <span class="keyword">import</span> strftime,gmtime</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">sendMail</span><span class="params">(subject,msg,toaddr,fromaddr,smtpaddr,password)</span>:</span></div><div class="line"><span class="string">'''''</span></div><div class="line">    @subject:邮件主题</div><div class="line">    @msg:邮件内容</div><div class="line">    @toaddr:收信人地址</div><div class="line">    @fromaddr:发信人地址</div><div class="line">    @smtpaddr:SMTP服务地址</div><div class="line">    @password:密码</div><div class="line">'''</div><div class="line">mail_msg = MIMEMultipart()</div><div class="line"><span class="comment">#if not isinstance(subject,unicode):</span></div><div class="line">    <span class="comment">#subject = unicode(subject,'utf-8')</span></div><div class="line">mail_msg[<span class="string">'Subject'</span>] = subject</div><div class="line">mail_msg[<span class="string">'From'</span>] = fromaddr</div><div class="line">mail_msg[<span class="string">'To'</span>] = <span class="string">','</span>.join(toaddr)</div><div class="line">mail_msg.attach(MIMEText(msg,<span class="string">'html'</span>,<span class="string">'utf-8'</span>))</div><div class="line"><span class="comment">#database_2017-06-05.sql  文件格式</span></div><div class="line">time = strftime(<span class="string">"%Y-%m-%d"</span>, gmtime())</div><div class="line">string = <span class="string">"database_"</span>+time+<span class="string">".sql"</span></div><div class="line"><span class="comment">#添加附件 </span></div><div class="line">part = MIMEApplication(open(<span class="string">'/usr/local/src/mysqlBackups/'</span>+string,<span class="string">'rb'</span>).read())  </div><div class="line">part.add_header(<span class="string">'Content-Disposition'</span>, <span class="string">'attachment'</span>, filename=string)  </div><div class="line">mail_msg.attach(part)</div><div class="line"><span class="keyword">try</span>:</div><div class="line">    s = smtplib.SMTP_SSL(smtpaddr, <span class="number">465</span>)</div><div class="line">    s.login(fromaddr,password)</div><div class="line">    s.sendmail(fromaddr,toaddr,mail_msg.as_string())</div><div class="line">    s.quit()</div><div class="line">    print(<span class="string">"Send Over!"</span>)</div><div class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</div><div class="line">    print(<span class="string">"Error : unable to send email!"</span>)</div><div class="line">    <span class="keyword">print</span> (traceback.format_exc())</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    fromaddr = <span class="string">"XXXXXX@qq.com"</span></div><div class="line">    smtpaddr = <span class="string">"smtp.qq.com"</span></div><div class="line">    toaddr = [<span class="string">"XXXX@hotmail.com"</span>]</div><div class="line">    subject = <span class="string">"XXXX数据库备份----请查看附件"</span></div><div class="line">    password = <span class="string">"123456"</span></div><div class="line">    msg = <span class="string">"附件XXX数据库备份"</span></div><div class="line">    sendMail(subject, msg, toaddr, fromaddr, smtpaddr, password)</div></pre></td></tr></table></figure>
+<hr>
 <h3 id="以上就完成了简易的脚本编写-然后开始在Linux上面（我用的CentOS-打开cron"><a href="#以上就完成了简易的脚本编写-然后开始在Linux上面（我用的CentOS-打开cron" class="headerlink" title="以上就完成了简易的脚本编写;然后开始在Linux上面（我用的CentOS)打开cron"></a>以上就完成了简易的脚本编写;然后开始在Linux上面（我用的CentOS)打开cron</h3><pre><code>crontab -e
-
-使用vi编辑器编写定时任务
-
-&gt; 备份数据到指定目录
-&gt; 23 23 * * * /usr/local/src/script/copySql.sh &gt;&gt; /usr/local/src/script/log/sendmail/copySql.log 2&gt;&amp;1
-&gt; 从指定目录读取指定文件并发送给邮箱
-&gt; 33 23 * * * PATH=/usr/local/bin python3  /usr/local/src/script/sendMail.py  &gt;&gt; /usr/local/src/script/log/sendmail/mail.log 2&gt;&amp;1
-</code></pre><h5 id="就这样写起了个简易的数据备份到邮箱"><a href="#就这样写起了个简易的数据备份到邮箱" class="headerlink" title="就这样写起了个简易的数据备份到邮箱"></a>就这样写起了个简易的数据备份到邮箱</h5><hr>
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">使用vi编辑器编写定时任务</div><div class="line">&gt; 备份数据到指定目录</div><div class="line">&gt; <span class="number">23</span> <span class="number">23</span> * * * /usr/local/src/script/copySql.sh &gt;&gt; /usr/local/src/script/log/sendmail/copySql.log <span class="number">2</span>&gt;&amp;<span class="number">1</span></div><div class="line">&gt; 从指定目录读取指定文件并发送给邮箱</div><div class="line">&gt; <span class="number">33</span> <span class="number">23</span> * * * PATH=/usr/local/bin python3  /usr/local/src/script/sendMail.py  &gt;&gt; /usr/local/src/script/log/sendmail/mail.log <span class="number">2</span>&gt;&amp;<span class="number">1</span></div></pre></td></tr></table></figure>
+<h5 id="就这样写起了个简易的数据备份到邮箱"><a href="#就这样写起了个简易的数据备份到邮箱" class="headerlink" title="就这样写起了个简易的数据备份到邮箱"></a>就这样写起了个简易的数据备份到邮箱</h5><hr>
 <h6 id="每天吃一点，终会长肉的-—"><a href="#每天吃一点，终会长肉的-—" class="headerlink" title="每天吃一点，终会长肉的^—^"></a><center><em>每天吃一点，终会长肉的^—^</em></center></h6>]]></content>
     
     <summary type="html">
