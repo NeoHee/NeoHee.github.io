@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://edmongo.cn/"/>
-  <updated>2017-06-12T02:36:26.000Z</updated>
+  <updated>2017-06-13T08:55:34.000Z</updated>
   <id>http://edmongo.cn/</id>
   
   <author>
@@ -14,6 +14,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Spring返回XML格式数据</title>
+    <link href="http://edmongo.cn/2017/06/13/Xml-SpringBoot/"/>
+    <id>http://edmongo.cn/2017/06/13/Xml-SpringBoot/</id>
+    <published>2017-06-13T08:00:39.000Z</published>
+    <updated>2017-06-13T08:55:34.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="首先在pom文件中引入的jar包"><a href="#首先在pom文件中引入的jar包" class="headerlink" title="首先在pom文件中引入的jar包:"></a>首先在pom文件中引入的jar包:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 配置XML --&gt;</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;com.fasterxml.jackson.dataformat&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;jackson-dataformat-xml&lt;/artifactId&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<h4 id="当然有这个是不够的-还需要做一些配置，下面是以Spring-boot中配置HttpMessageConverters为例子"><a href="#当然有这个是不够的-还需要做一些配置，下面是以Spring-boot中配置HttpMessageConverters为例子" class="headerlink" title="当然有这个是不够的,还需要做一些配置，下面是以Spring boot中配置HttpMessageConverters为例子"></a>当然有这个是不够的,还需要做一些配置，下面是以Spring boot中配置HttpMessageConverters为例子</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Bean</div><div class="line">public HttpMessageConverters fastJsonHttpMessageConverters() &#123;</div><div class="line">   //MappingJackson2XmlHttpMessageConverter xmlConverter = new MappingJackson2XmlHttpMessageConverter();</div><div class="line">   Jaxb2RootElementHttpMessageConverter xmlConverter = new Jaxb2RootElementHttpMessageConverter();</div><div class="line">   HttpMessageConverter&lt;?&gt; converter = xmlConverter;</div><div class="line">   return new HttpMessageConverters(converter);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="开始有使用MappingJackson2XmlHttpMessageConverter这个类来配置HttpMessageConverters-但是如果用大写来表示变量的话就会出现小写的变量-比如这样"><a href="#开始有使用MappingJackson2XmlHttpMessageConverter这个类来配置HttpMessageConverters-但是如果用大写来表示变量的话就会出现小写的变量-比如这样" class="headerlink" title="开始有使用MappingJackson2XmlHttpMessageConverter这个类来配置HttpMessageConverters,但是如果用大写来表示变量的话就会出现小写的变量,比如这样:"></a>开始有使用MappingJackson2XmlHttpMessageConverter这个类来配置HttpMessageConverters,但是如果用大写来表示变量的话就会出现小写的变量,比如这样:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;response&gt;</div><div class="line">    &lt;TEST&gt;test&lt;/TEST&gt;</div><div class="line">    &lt;MES&gt;0&lt;/MES&gt;</div><div class="line">    &lt;test&gt;test&lt;/test&gt;</div><div class="line">    &lt;mes&gt;0&lt;/mes&gt;</div><div class="line">&lt;/response&gt;</div></pre></td></tr></table></figure>
+<h5 id="所以就用了Jaxb2RootElementHttpMessageConverter来进行配置，然后就这样配置，运行下去后，突然就报了错"><a href="#所以就用了Jaxb2RootElementHttpMessageConverter来进行配置，然后就这样配置，运行下去后，突然就报了错" class="headerlink" title="所以就用了Jaxb2RootElementHttpMessageConverter来进行配置，然后就这样配置，运行下去后，突然就报了错"></a>所以就用了Jaxb2RootElementHttpMessageConverter来进行配置，然后就这样配置，运行下去后，突然就报了错</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">类的两个属性具有相同名称 &quot;BGYS&quot;</div><div class="line">    this problem is related to the following location:</div><div class="line">        at public java.lang.String com.knot.bean.PacsResultBean.getBGYS()</div><div class="line">        at com.knot.bean.PacsResultBean</div><div class="line">        at public java.util.List com.knot.bean.Response.item</div><div class="line">        at com.knot.bean.Response</div><div class="line">    this problem is related to the following location:</div><div class="line">        at public java.lang.String com.knot.bean.PacsResultBean.BGYS</div><div class="line">        at com.knot.bean.PacsResultBean</div><div class="line">        at public java.util.List com.knot.bean.Response.item</div><div class="line">        at com.knot.bean.Response</div></pre></td></tr></table></figure>
+<h5 id="然后在对应字段的get方法上面加上-XmlTransient注解就可以了，不会报错了-本以为这样就顺利的会得到XML格式的文本了，结果依然报错了这一次报错的信息是"><a href="#然后在对应字段的get方法上面加上-XmlTransient注解就可以了，不会报错了-本以为这样就顺利的会得到XML格式的文本了，结果依然报错了这一次报错的信息是" class="headerlink" title="然后在对应字段的get方法上面加上 @XmlTransient注解就可以了，不会报错了,本以为这样就顺利的会得到XML格式的文本了，结果依然报错了这一次报错的信息是:"></a>然后在对应字段的get方法上面加上 @XmlTransient注解就可以了，不会报错了,本以为这样就顺利的会得到XML格式的文本了，结果依然报错了这一次报错的信息是:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[com.sun.istack.internal.SAXException2: class com.knot.bean.PacsResultBean以及其任何超类对此上下文都是未知的。</div><div class="line">javax.xml.bind.JAXBException: class com.knot.bean.PacsResultBean以及其任何超类对此上下文都是未知的。]</div><div class="line">2017-06-13 16:47:00.514 ERROR 6852 --- [io-8081-exec-20] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet dispatcherServlet threw exception</div><div class="line"></div><div class="line">java.lang.IllegalStateException: getOutputStream() has already been called for this response</div></pre></td></tr></table></figure>
+<h5 id="看到这个错误信息我也是很懵逼啊，找了半天才发现是自己的一个数组用了泛型，然后对应类找不到对应的实体所以就报错了，所以要在泛型的字段上面加上这个"><a href="#看到这个错误信息我也是很懵逼啊，找了半天才发现是自己的一个数组用了泛型，然后对应类找不到对应的实体所以就报错了，所以要在泛型的字段上面加上这个" class="headerlink" title="看到这个错误信息我也是很懵逼啊，找了半天才发现是自己的一个数组用了泛型，然后对应类找不到对应的实体所以就报错了，所以要在泛型的字段上面加上这个:"></a>看到这个错误信息我也是很懵逼啊，找了半天才发现是自己的一个数组用了泛型，然后对应类找不到对应的实体所以就报错了，所以要在泛型的字段上面加上这个:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">@XmlElement </div><div class="line">public String resultCode = &quot;0&quot;;</div><div class="line">@XmlElement </div><div class="line">public String resultMessage=&quot;SUCCESS&quot;;</div><div class="line">@XmlElements(&#123;</div><div class="line">    @XmlElement(name=&quot;item&quot;,type=有用到的实体类都要加上  实体类.class),</div><div class="line">    @XmlElement(name=&quot;item&quot;,type=ItemBean.class)</div><div class="line">&#125;)</div><div class="line">public List&lt;T&gt; item;</div></pre></td></tr></table></figure>
+<h5 id="如果有实体类没有加上去，那么就会解析失败报其任何超类对此上下文都是未知的错误。"><a href="#如果有实体类没有加上去，那么就会解析失败报其任何超类对此上下文都是未知的错误。" class="headerlink" title="如果有实体类没有加上去，那么就会解析失败报其任何超类对此上下文都是未知的错误。"></a>如果有实体类没有加上去，那么就会解析失败报其任何超类对此上下文都是未知的错误。</h5><hr>
+<h6 id="每天吃一点，终会长肉的-—"><a href="#每天吃一点，终会长肉的-—" class="headerlink" title="每天吃一点，终会长肉的^—^"></a><center><em>每天吃一点，终会长肉的^—^</em></center></h6>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;首先在pom文件中引入的jar包&quot;&gt;&lt;a href=&quot;#首先在pom文件中引入的jar包&quot; class=&quot;headerlink&quot; title=&quot;首先在pom文件中引入的jar包:&quot;&gt;&lt;/a&gt;首先在pom文件中引入的jar包:&lt;/h3&gt;&lt;figure class=&quot;
+    
+    </summary>
+    
+      <category term="Spring Boot" scheme="http://edmongo.cn/categories/Spring-Boot/"/>
+    
+      <category term="Restful" scheme="http://edmongo.cn/categories/Spring-Boot/Restful/"/>
+    
+    
+      <category term="Java" scheme="http://edmongo.cn/tags/Java/"/>
+    
+  </entry>
   
   <entry>
     <title>关于Restful的一点认知</title>

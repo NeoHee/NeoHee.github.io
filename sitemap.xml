@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://edmongo.cn/2017/06/13/Xml-SpringBoot/</loc>
+    
+    <lastmod>2017-06-13T08:55:34.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://edmongo.cn/2017/06/08/Restful/</loc>
     
     <lastmod>2017-06-12T02:36:26.000Z</lastmod>

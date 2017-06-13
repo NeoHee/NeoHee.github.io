@@ -1,0 +1,345 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="Lullaby">
+  
+  
+  
+  
+    <meta name="description" content="首先在pom文件中引入的jar包:12345&lt;!-- 配置XML --&gt;&lt;dependency&gt;    &lt;groupId&gt;com.fasterxml.jackson.dataformat&lt;/groupId&gt;    &lt;artifactId&gt;jackson-dataformat-xml&lt;/artifactId&gt;&lt;/de...">
+  
+  <title>Spring返回XML格式数据 [ Lullaby长叶子 ]</title>
+  
+    <link rel="alternate" href="/atom.xml" title="Lullaby长叶子">
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+  
+    <div class="item next">
+      <a href="/2017/06/08/Restful/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        关于Restful的一点认知
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onClick="openUserCard()">
+          <img id="avatar" src="http://115.159.126.120/maomi/maomi.png"/>
+          <div id="homelink">Lullaby长叶子</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">Categories</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/NeoHee/NeoHee.github.io">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  <article id="post">
+    <h1>Spring返回XML格式数据</h1>
+    <p class="page-title-sub">
+      <span id = "post-title-date">Created at 2017-06-13</span>
+      
+        <span id = "post-title-updated">Updated at 2017-06-13</span>
+      
+      
+      <span id = "post-title-categories">Category
+      
+      
+        
+        
+        <a href="/categories/Spring-Boot/">Spring Boot</a>
+      
+        
+          /
+        
+        
+        <a href="/categories/Spring-Boot/Restful/">Restful</a>
+      
+      </span>
+      
+      
+      <span id = "post-title-tags">
+      Tag
+      
+      
+        
+        
+        <a href="/tags/Java/">Java</a>
+      
+      </span>
+      
+    </p>
+    
+    <h3 id="首先在pom文件中引入的jar包"><a href="#首先在pom文件中引入的jar包" class="headerlink" title="首先在pom文件中引入的jar包:"></a>首先在pom文件中引入的jar包:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 配置XML --&gt;</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;com.fasterxml.jackson.dataformat&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;jackson-dataformat-xml&lt;/artifactId&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<h4 id="当然有这个是不够的-还需要做一些配置，下面是以Spring-boot中配置HttpMessageConverters为例子"><a href="#当然有这个是不够的-还需要做一些配置，下面是以Spring-boot中配置HttpMessageConverters为例子" class="headerlink" title="当然有这个是不够的,还需要做一些配置，下面是以Spring boot中配置HttpMessageConverters为例子"></a>当然有这个是不够的,还需要做一些配置，下面是以Spring boot中配置HttpMessageConverters为例子</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Bean</div><div class="line">public HttpMessageConverters fastJsonHttpMessageConverters() &#123;</div><div class="line">   //MappingJackson2XmlHttpMessageConverter xmlConverter = new MappingJackson2XmlHttpMessageConverter();</div><div class="line">   Jaxb2RootElementHttpMessageConverter xmlConverter = new Jaxb2RootElementHttpMessageConverter();</div><div class="line">   HttpMessageConverter&lt;?&gt; converter = xmlConverter;</div><div class="line">   return new HttpMessageConverters(converter);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="开始有使用MappingJackson2XmlHttpMessageConverter这个类来配置HttpMessageConverters-但是如果用大写来表示变量的话就会出现小写的变量-比如这样"><a href="#开始有使用MappingJackson2XmlHttpMessageConverter这个类来配置HttpMessageConverters-但是如果用大写来表示变量的话就会出现小写的变量-比如这样" class="headerlink" title="开始有使用MappingJackson2XmlHttpMessageConverter这个类来配置HttpMessageConverters,但是如果用大写来表示变量的话就会出现小写的变量,比如这样:"></a>开始有使用MappingJackson2XmlHttpMessageConverter这个类来配置HttpMessageConverters,但是如果用大写来表示变量的话就会出现小写的变量,比如这样:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;response&gt;</div><div class="line">    &lt;TEST&gt;test&lt;/TEST&gt;</div><div class="line">    &lt;MES&gt;0&lt;/MES&gt;</div><div class="line">    &lt;test&gt;test&lt;/test&gt;</div><div class="line">    &lt;mes&gt;0&lt;/mes&gt;</div><div class="line">&lt;/response&gt;</div></pre></td></tr></table></figure>
+<h5 id="所以就用了Jaxb2RootElementHttpMessageConverter来进行配置，然后就这样配置，运行下去后，突然就报了错"><a href="#所以就用了Jaxb2RootElementHttpMessageConverter来进行配置，然后就这样配置，运行下去后，突然就报了错" class="headerlink" title="所以就用了Jaxb2RootElementHttpMessageConverter来进行配置，然后就这样配置，运行下去后，突然就报了错"></a>所以就用了Jaxb2RootElementHttpMessageConverter来进行配置，然后就这样配置，运行下去后，突然就报了错</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">类的两个属性具有相同名称 &quot;BGYS&quot;</div><div class="line">    this problem is related to the following location:</div><div class="line">        at public java.lang.String com.knot.bean.PacsResultBean.getBGYS()</div><div class="line">        at com.knot.bean.PacsResultBean</div><div class="line">        at public java.util.List com.knot.bean.Response.item</div><div class="line">        at com.knot.bean.Response</div><div class="line">    this problem is related to the following location:</div><div class="line">        at public java.lang.String com.knot.bean.PacsResultBean.BGYS</div><div class="line">        at com.knot.bean.PacsResultBean</div><div class="line">        at public java.util.List com.knot.bean.Response.item</div><div class="line">        at com.knot.bean.Response</div></pre></td></tr></table></figure>
+<h5 id="然后在对应字段的get方法上面加上-XmlTransient注解就可以了，不会报错了-本以为这样就顺利的会得到XML格式的文本了，结果依然报错了这一次报错的信息是"><a href="#然后在对应字段的get方法上面加上-XmlTransient注解就可以了，不会报错了-本以为这样就顺利的会得到XML格式的文本了，结果依然报错了这一次报错的信息是" class="headerlink" title="然后在对应字段的get方法上面加上 @XmlTransient注解就可以了，不会报错了,本以为这样就顺利的会得到XML格式的文本了，结果依然报错了这一次报错的信息是:"></a>然后在对应字段的get方法上面加上 @XmlTransient注解就可以了，不会报错了,本以为这样就顺利的会得到XML格式的文本了，结果依然报错了这一次报错的信息是:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[com.sun.istack.internal.SAXException2: class com.knot.bean.PacsResultBean以及其任何超类对此上下文都是未知的。</div><div class="line">javax.xml.bind.JAXBException: class com.knot.bean.PacsResultBean以及其任何超类对此上下文都是未知的。]</div><div class="line">2017-06-13 16:47:00.514 ERROR 6852 --- [io-8081-exec-20] o.a.c.c.C.[.[.[.[dispatcherServlet]      : Servlet.service() for servlet dispatcherServlet threw exception</div><div class="line"></div><div class="line">java.lang.IllegalStateException: getOutputStream() has already been called for this response</div></pre></td></tr></table></figure>
+<h5 id="看到这个错误信息我也是很懵逼啊，找了半天才发现是自己的一个数组用了泛型，然后对应类找不到对应的实体所以就报错了，所以要在泛型的字段上面加上这个"><a href="#看到这个错误信息我也是很懵逼啊，找了半天才发现是自己的一个数组用了泛型，然后对应类找不到对应的实体所以就报错了，所以要在泛型的字段上面加上这个" class="headerlink" title="看到这个错误信息我也是很懵逼啊，找了半天才发现是自己的一个数组用了泛型，然后对应类找不到对应的实体所以就报错了，所以要在泛型的字段上面加上这个:"></a>看到这个错误信息我也是很懵逼啊，找了半天才发现是自己的一个数组用了泛型，然后对应类找不到对应的实体所以就报错了，所以要在泛型的字段上面加上这个:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">@XmlElement </div><div class="line">public String resultCode = &quot;0&quot;;</div><div class="line">@XmlElement </div><div class="line">public String resultMessage=&quot;SUCCESS&quot;;</div><div class="line">@XmlElements(&#123;</div><div class="line">    @XmlElement(name=&quot;item&quot;,type=有用到的实体类都要加上  实体类.class),</div><div class="line">    @XmlElement(name=&quot;item&quot;,type=ItemBean.class)</div><div class="line">&#125;)</div><div class="line">public List&lt;T&gt; item;</div></pre></td></tr></table></figure>
+<h5 id="如果有实体类没有加上去，那么就会解析失败报其任何超类对此上下文都是未知的错误。"><a href="#如果有实体类没有加上去，那么就会解析失败报其任何超类对此上下文都是未知的错误。" class="headerlink" title="如果有实体类没有加上去，那么就会解析失败报其任何超类对此上下文都是未知的错误。"></a>如果有实体类没有加上去，那么就会解析失败报其任何超类对此上下文都是未知的错误。</h5><hr>
+<h6 id="每天吃一点，终会长肉的-—"><a href="#每天吃一点，终会长肉的-—" class="headerlink" title="每天吃一点，终会长肉的^—^"></a><center><em>每天吃一点，终会长肉的^—^</em></center></h6>
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#首先在pom文件中引入的jar包"><span class="toc-text">首先在pom文件中引入的jar包:</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#当然有这个是不够的-还需要做一些配置，下面是以Spring-boot中配置HttpMessageConverters为例子"><span class="toc-text">当然有这个是不够的,还需要做一些配置，下面是以Spring boot中配置HttpMessageConverters为例子</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#开始有使用MappingJackson2XmlHttpMessageConverter这个类来配置HttpMessageConverters-但是如果用大写来表示变量的话就会出现小写的变量-比如这样"><span class="toc-text">开始有使用MappingJackson2XmlHttpMessageConverter这个类来配置HttpMessageConverters,但是如果用大写来表示变量的话就会出现小写的变量,比如这样:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#所以就用了Jaxb2RootElementHttpMessageConverter来进行配置，然后就这样配置，运行下去后，突然就报了错"><span class="toc-text">所以就用了Jaxb2RootElementHttpMessageConverter来进行配置，然后就这样配置，运行下去后，突然就报了错</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#然后在对应字段的get方法上面加上-XmlTransient注解就可以了，不会报错了-本以为这样就顺利的会得到XML格式的文本了，结果依然报错了这一次报错的信息是"><span class="toc-text">然后在对应字段的get方法上面加上 @XmlTransient注解就可以了，不会报错了,本以为这样就顺利的会得到XML格式的文本了，结果依然报错了这一次报错的信息是:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#看到这个错误信息我也是很懵逼啊，找了半天才发现是自己的一个数组用了泛型，然后对应类找不到对应的实体所以就报错了，所以要在泛型的字段上面加上这个"><span class="toc-text">看到这个错误信息我也是很懵逼啊，找了半天才发现是自己的一个数组用了泛型，然后对应类找不到对应的实体所以就报错了，所以要在泛型的字段上面加上这个:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#如果有实体类没有加上去，那么就会解析失败报其任何超类对此上下文都是未知的错误。"><span class="toc-text">如果有实体类没有加上去，那么就会解析失败报其任何超类对此上下文都是未知的错误。</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#每天吃一点，终会长肉的-—"><span class="toc-text">每天吃一点，终会长肉的^—^</span></a></li></ol></li></ol></li></ol></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+
+  
+
+  
+    <a href="/2017/06/08/Restful/" class="next">Next post 关于Restful的一点认知 &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by Lullaby using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="http://115.159.126.120/maomi/maomi.png">
+    <p id="description">长叶子的历程</p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/NeoHee/NeoHee.github.io">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://www.zhihu.com/people/he-tao-21-35/collections">
+        
+          <i class="icon iconfont zhihu">&#xe60b;</i>
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["slideLeft2","slideRight2","flash2"],"timer":false,"delay":60000,"shuffle":true,"count":28};
+var unsplashConfig = {"gravity":"north"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+  turnoffBackgroundImage = true;
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
