@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://edmongo.cn/"/>
-  <updated>2017-06-13T09:38:59.000Z</updated>
+  <updated>2017-06-13T09:46:51.000Z</updated>
   <id>http://edmongo.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://edmongo.cn/2017/06/13/SendmailShell/"/>
     <id>http://edmongo.cn/2017/06/13/SendmailShell/</id>
     <published>2017-06-13T09:37:39.000Z</published>
-    <updated>2017-06-13T09:38:59.000Z</updated>
+    <updated>2017-06-13T09:46:51.000Z</updated>
     
     <content type="html"><![CDATA[<p><link rel="stylesheet" href="https://sf-static.b0.upaiyun.com/v-576b52d9/3rd/highlightjs/styles/solarized_light.css"></p>
 <script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js">        </script>  
@@ -99,8 +99,10 @@ if __name__ == &apos;__main__&apos;:
     
     </summary>
     
-      <category term="Linux" scheme="http://edmongo.cn/categories/Linux/"/>
+      <category term="Script" scheme="http://edmongo.cn/categories/Script/"/>
     
+    
+      <category term="Linux" scheme="http://edmongo.cn/tags/Linux/"/>
     
       <category term="Shell" scheme="http://edmongo.cn/tags/Shell/"/>
     
