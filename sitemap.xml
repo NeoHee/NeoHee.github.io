@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://edmongo.cn/2017/06/08/Restful/</loc>
+    <loc>http://edmongo.cn/2017/06/13/SendMailShell/</loc>
     
-    <lastmod>2017-06-13T10:05:54.000Z</lastmod>
+    <lastmod>2017-06-13T10:09:38.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://edmongo.cn/2017/06/13/SendMailShell/</loc>
+    <loc>http://edmongo.cn/2017/06/06/SpringBoot-JavaMail/</loc>
     
-    <lastmod>2017-06-13T10:05:37.000Z</lastmod>
+    <lastmod>2017-06-13T10:08:17.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://edmongo.cn/2017/06/08/Restful/</loc>
+    
+    <lastmod>2017-06-13T10:05:54.000Z</lastmod>
     
   </url>
   
@@ -26,13 +33,6 @@
     <loc>http://edmongo.cn/2017/06/13/Xml-SpringBoot/</loc>
     
     <lastmod>2017-06-13T10:02:45.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://edmongo.cn/2017/06/06/SpringBoot-JavaMail/</loc>
-    
-    <lastmod>2017-06-13T10:02:22.000Z</lastmod>
     
   </url>
   
