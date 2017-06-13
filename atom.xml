@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://edmongo.cn/"/>
-  <updated>2017-06-13T08:55:34.000Z</updated>
+  <updated>2017-06-13T09:38:59.000Z</updated>
   <id>http://edmongo.cn/</id>
   
   <author>
@@ -16,11 +16,104 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>简易脚本备份数据库到邮箱</title>
+    <link href="http://edmongo.cn/2017/06/13/SendmailShell/"/>
+    <id>http://edmongo.cn/2017/06/13/SendmailShell/</id>
+    <published>2017-06-13T09:37:39.000Z</published>
+    <updated>2017-06-13T09:38:59.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><link rel="stylesheet" href="https://sf-static.b0.upaiyun.com/v-576b52d9/3rd/highlightjs/styles/solarized_light.css"></p>
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js">        </script>  
+<script>hljs.initHighlightingOnLoad();</script>
+
+<h3 id="因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。"><a href="#因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。" class="headerlink" title="因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。"></a>因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。</h3><pre><code>首先创建一个copySql.sh
+
+mysqldump -h120.0.0.1 -uroot -P3306 -ppws --databases 数据库名字（多个数据库用空格隔开） &gt; /usr/local/src/mysqlBackups/database_`date &apos;+%Y-%m-%d&apos;`.sql
+</code></pre><h5 id="备份数据库，并且导成文件到某个文件夹"><a href="#备份数据库，并且导成文件到某个文件夹" class="headerlink" title="备份数据库，并且导成文件到某个文件夹"></a>备份数据库，并且导成文件到某个文件夹</h5><hr>
+<h3 id="使用脚本发送邮件到自己邮箱"><a href="#使用脚本发送邮件到自己邮箱" class="headerlink" title="使用脚本发送邮件到自己邮箱"></a>使用脚本发送邮件到自己邮箱</h3><pre><code>首次创建一个文件sendMail.py   (Pythone3)
+
+
+import sys,os,re,urllib
+import smtplib
+import traceback
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
+from time import strftime,gmtime
+def sendMail(subject,msg,toaddr,fromaddr,smtpaddr,password):
+&apos;&apos;&apos;&apos;&apos;
+    @subject:邮件主题
+    @msg:邮件内容
+    @toaddr:收信人地址
+    @fromaddr:发信人地址
+    @smtpaddr:SMTP服务地址
+    @password:密码
+&apos;&apos;&apos;
+mail_msg = MIMEMultipart()
+#if not isinstance(subject,unicode):
+    #subject = unicode(subject,&apos;utf-8&apos;)
+mail_msg[&apos;Subject&apos;] = subject
+mail_msg[&apos;From&apos;] = fromaddr
+mail_msg[&apos;To&apos;] = &apos;,&apos;.join(toaddr)
+mail_msg.attach(MIMEText(msg,&apos;html&apos;,&apos;utf-8&apos;))
+#database_2017-06-05.sql  文件格式
+time = strftime(&quot;%Y-%m-%d&quot;, gmtime())
+string = &quot;database_&quot;+time+&quot;.sql&quot;
+#添加附件 
+part = MIMEApplication(open(&apos;/usr/local/src/mysqlBackups/&apos;+string,&apos;rb&apos;).read())  
+part.add_header(&apos;Content-Disposition&apos;, &apos;attachment&apos;, filename=string)  
+mail_msg.attach(part)
+try:
+    s = smtplib.SMTP_SSL(smtpaddr, 465)
+    s.login(fromaddr,password)
+    s.sendmail(fromaddr,toaddr,mail_msg.as_string())
+    s.quit()
+    print(&quot;Send Over!&quot;)
+except Exception as e:
+    print(&quot;Error : unable to send email!&quot;)
+    print (traceback.format_exc())
+if __name__ == &apos;__main__&apos;:
+    fromaddr = &quot;XXXXXX@qq.com&quot;
+    smtpaddr = &quot;smtp.qq.com&quot;
+    toaddr = [&quot;XXXX@hotmail.com&quot;]
+    subject = &quot;XXXX数据库备份----请查看附件&quot;
+    password = &quot;123456&quot;
+    msg = &quot;附件XXX数据库备份&quot;
+    sendMail(subject, msg, toaddr, fromaddr, smtpaddr, password)
+</code></pre><hr>
+<h3 id="以上就完成了简易的脚本编写-然后开始在Linux上面（我用的CentOS-打开cron"><a href="#以上就完成了简易的脚本编写-然后开始在Linux上面（我用的CentOS-打开cron" class="headerlink" title="以上就完成了简易的脚本编写;然后开始在Linux上面（我用的CentOS)打开cron"></a>以上就完成了简易的脚本编写;然后开始在Linux上面（我用的CentOS)打开cron</h3><pre><code>crontab -e
+
+使用vi编辑器编写定时任务
+
+&gt; 备份数据到指定目录
+&gt; 23 23 * * * /usr/local/src/script/copySql.sh &gt;&gt; /usr/local/src/script/log/sendmail/copySql.log 2&gt;&amp;1
+&gt; 从指定目录读取指定文件并发送给邮箱
+&gt; 33 23 * * * PATH=/usr/local/bin python3  /usr/local/src/script/sendMail.py  &gt;&gt; /usr/local/src/script/log/sendmail/mail.log 2&gt;&amp;1
+</code></pre><h5 id="就这样写起了个简易的数据备份到邮箱"><a href="#就这样写起了个简易的数据备份到邮箱" class="headerlink" title="就这样写起了个简易的数据备份到邮箱"></a>就这样写起了个简易的数据备份到邮箱</h5><hr>
+<h6 id="每天吃一点，终会长肉的-—"><a href="#每天吃一点，终会长肉的-—" class="headerlink" title="每天吃一点，终会长肉的^—^"></a><center><em>每天吃一点，终会长肉的^—^</em></center></h6>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;https://sf-static.b0.upaiyun.com/v-576b52d9/3rd/highlightjs/styles/solarized_light.css&quot;&gt;&lt;/p&gt;
+&lt;script src=&quot;ht
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://edmongo.cn/categories/Linux/"/>
+    
+    
+      <category term="Shell" scheme="http://edmongo.cn/tags/Shell/"/>
+    
+      <category term="Python" scheme="http://edmongo.cn/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Spring返回XML格式数据</title>
     <link href="http://edmongo.cn/2017/06/13/Xml-SpringBoot/"/>
     <id>http://edmongo.cn/2017/06/13/Xml-SpringBoot/</id>
     <published>2017-06-13T08:00:39.000Z</published>
-    <updated>2017-06-13T08:55:34.000Z</updated>
+    <updated>2017-06-13T09:43:07.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="首先在pom文件中引入的jar包"><a href="#首先在pom文件中引入的jar包" class="headerlink" title="首先在pom文件中引入的jar包:"></a>首先在pom文件中引入的jar包:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 配置XML --&gt;</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;com.fasterxml.jackson.dataformat&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;jackson-dataformat-xml&lt;/artifactId&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
 <h4 id="当然有这个是不够的-还需要做一些配置，下面是以Spring-boot中配置HttpMessageConverters为例子"><a href="#当然有这个是不够的-还需要做一些配置，下面是以Spring-boot中配置HttpMessageConverters为例子" class="headerlink" title="当然有这个是不够的,还需要做一些配置，下面是以Spring boot中配置HttpMessageConverters为例子"></a>当然有这个是不够的,还需要做一些配置，下面是以Spring boot中配置HttpMessageConverters为例子</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Bean</div><div class="line">public HttpMessageConverters fastJsonHttpMessageConverters() &#123;</div><div class="line">   //MappingJackson2XmlHttpMessageConverter xmlConverter = new MappingJackson2XmlHttpMessageConverter();</div><div class="line">   Jaxb2RootElementHttpMessageConverter xmlConverter = new Jaxb2RootElementHttpMessageConverter();</div><div class="line">   HttpMessageConverter&lt;?&gt; converter = xmlConverter;</div><div class="line">   return new HttpMessageConverters(converter);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -38,8 +131,6 @@
     </summary>
     
       <category term="Spring Boot" scheme="http://edmongo.cn/categories/Spring-Boot/"/>
-    
-      <category term="Restful" scheme="http://edmongo.cn/categories/Spring-Boot/Restful/"/>
     
     
       <category term="Java" scheme="http://edmongo.cn/tags/Java/"/>

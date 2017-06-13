@@ -1,0 +1,410 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="zh-cn">
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="Lullaby">
+  
+  
+  
+  
+    <meta name="description" content="hljs.initHighlightingOnLoad();
+
+因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。首先创建一个copySql.sh
+
+mysqldump -h120.0.0.1 -uroot -P3306 -ppws --databases 数据库名字（多个数据库用空格隔开） &gt; /usr/local/src/mysqlBackups/databas...">
+  
+  <title>简易脚本备份数据库到邮箱 [ Lullaby长叶子 ]</title>
+  
+    <link rel="alternate" href="/atom.xml" title="Lullaby长叶子">
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+  
+    <div class="item next">
+      <a href="/2017/06/13/Xml-SpringBoot/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Spring返回XML格式数据
+      </div>
+    </div>
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onClick="openUserCard()">
+          <img id="avatar" src="http://115.159.126.120/maomi/maomi.png"/>
+          <div id="homelink">Lullaby长叶子</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">Home</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">Archives</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/tags">Tags</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/categories">Categories</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/about">About</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/NeoHee/NeoHee.github.io">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  <article id="post">
+    <h1>简易脚本备份数据库到邮箱</h1>
+    <p class="page-title-sub">
+      <span id = "post-title-date">Created at 2017-06-13</span>
+      
+        <span id = "post-title-updated">Updated at 2017-06-13</span>
+      
+      
+      <span id = "post-title-categories">Category
+      
+      
+        
+        
+        <a href="/categories/Linux/">Linux</a>
+      
+      </span>
+      
+      
+      <span id = "post-title-tags">
+      Tag
+      
+      
+        
+        
+        <a href="/tags/Shell/">Shell</a>
+      
+        
+          /
+        
+        
+        <a href="/tags/Python/">Python</a>
+      
+      </span>
+      
+    </p>
+    
+    <p><link rel="stylesheet" href="https://sf-static.b0.upaiyun.com/v-576b52d9/3rd/highlightjs/styles/solarized_light.css"></p>
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js">        </script>  
+<script>hljs.initHighlightingOnLoad();</script>
+
+<h3 id="因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。"><a href="#因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。" class="headerlink" title="因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。"></a>因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。</h3><pre><code>首先创建一个copySql.sh
+
+mysqldump -h120.0.0.1 -uroot -P3306 -ppws --databases 数据库名字（多个数据库用空格隔开） &gt; /usr/local/src/mysqlBackups/database_`date &apos;+%Y-%m-%d&apos;`.sql
+</code></pre><h5 id="备份数据库，并且导成文件到某个文件夹"><a href="#备份数据库，并且导成文件到某个文件夹" class="headerlink" title="备份数据库，并且导成文件到某个文件夹"></a>备份数据库，并且导成文件到某个文件夹</h5><hr>
+<h3 id="使用脚本发送邮件到自己邮箱"><a href="#使用脚本发送邮件到自己邮箱" class="headerlink" title="使用脚本发送邮件到自己邮箱"></a>使用脚本发送邮件到自己邮箱</h3><pre><code>首次创建一个文件sendMail.py   (Pythone3)
+
+
+import sys,os,re,urllib
+import smtplib
+import traceback
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
+from time import strftime,gmtime
+def sendMail(subject,msg,toaddr,fromaddr,smtpaddr,password):
+&apos;&apos;&apos;&apos;&apos;
+    @subject:邮件主题
+    @msg:邮件内容
+    @toaddr:收信人地址
+    @fromaddr:发信人地址
+    @smtpaddr:SMTP服务地址
+    @password:密码
+&apos;&apos;&apos;
+mail_msg = MIMEMultipart()
+#if not isinstance(subject,unicode):
+    #subject = unicode(subject,&apos;utf-8&apos;)
+mail_msg[&apos;Subject&apos;] = subject
+mail_msg[&apos;From&apos;] = fromaddr
+mail_msg[&apos;To&apos;] = &apos;,&apos;.join(toaddr)
+mail_msg.attach(MIMEText(msg,&apos;html&apos;,&apos;utf-8&apos;))
+#database_2017-06-05.sql  文件格式
+time = strftime(&quot;%Y-%m-%d&quot;, gmtime())
+string = &quot;database_&quot;+time+&quot;.sql&quot;
+#添加附件 
+part = MIMEApplication(open(&apos;/usr/local/src/mysqlBackups/&apos;+string,&apos;rb&apos;).read())  
+part.add_header(&apos;Content-Disposition&apos;, &apos;attachment&apos;, filename=string)  
+mail_msg.attach(part)
+try:
+    s = smtplib.SMTP_SSL(smtpaddr, 465)
+    s.login(fromaddr,password)
+    s.sendmail(fromaddr,toaddr,mail_msg.as_string())
+    s.quit()
+    print(&quot;Send Over!&quot;)
+except Exception as e:
+    print(&quot;Error : unable to send email!&quot;)
+    print (traceback.format_exc())
+if __name__ == &apos;__main__&apos;:
+    fromaddr = &quot;XXXXXX@qq.com&quot;
+    smtpaddr = &quot;smtp.qq.com&quot;
+    toaddr = [&quot;XXXX@hotmail.com&quot;]
+    subject = &quot;XXXX数据库备份----请查看附件&quot;
+    password = &quot;123456&quot;
+    msg = &quot;附件XXX数据库备份&quot;
+    sendMail(subject, msg, toaddr, fromaddr, smtpaddr, password)
+</code></pre><hr>
+<h3 id="以上就完成了简易的脚本编写-然后开始在Linux上面（我用的CentOS-打开cron"><a href="#以上就完成了简易的脚本编写-然后开始在Linux上面（我用的CentOS-打开cron" class="headerlink" title="以上就完成了简易的脚本编写;然后开始在Linux上面（我用的CentOS)打开cron"></a>以上就完成了简易的脚本编写;然后开始在Linux上面（我用的CentOS)打开cron</h3><pre><code>crontab -e
+
+使用vi编辑器编写定时任务
+
+&gt; 备份数据到指定目录
+&gt; 23 23 * * * /usr/local/src/script/copySql.sh &gt;&gt; /usr/local/src/script/log/sendmail/copySql.log 2&gt;&amp;1
+&gt; 从指定目录读取指定文件并发送给邮箱
+&gt; 33 23 * * * PATH=/usr/local/bin python3  /usr/local/src/script/sendMail.py  &gt;&gt; /usr/local/src/script/log/sendmail/mail.log 2&gt;&amp;1
+</code></pre><h5 id="就这样写起了个简易的数据备份到邮箱"><a href="#就这样写起了个简易的数据备份到邮箱" class="headerlink" title="就这样写起了个简易的数据备份到邮箱"></a>就这样写起了个简易的数据备份到邮箱</h5><hr>
+<h6 id="每天吃一点，终会长肉的-—"><a href="#每天吃一点，终会长肉的-—" class="headerlink" title="每天吃一点，终会长肉的^—^"></a><center><em>每天吃一点，终会长肉的^—^</em></center></h6>
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。"><span class="toc-text">因为数据有过丢失，前几天写了个简易脚本进行备份，现在更新上来做个备忘。</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#备份数据库，并且导成文件到某个文件夹"><span class="toc-text">备份数据库，并且导成文件到某个文件夹</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用脚本发送邮件到自己邮箱"><span class="toc-text">使用脚本发送邮件到自己邮箱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#以上就完成了简易的脚本编写-然后开始在Linux上面（我用的CentOS-打开cron"><span class="toc-text">以上就完成了简易的脚本编写;然后开始在Linux上面（我用的CentOS)打开cron</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#就这样写起了个简易的数据备份到邮箱"><span class="toc-text">就这样写起了个简易的数据备份到邮箱</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#每天吃一点，终会长肉的-—"><span class="toc-text">每天吃一点，终会长肉的^—^</span></a></li></ol></li></ol></li></ol></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+
+  
+
+  
+    <a href="/2017/06/13/Xml-SpringBoot/" class="next">Next post Spring返回XML格式数据 &rarr;</a>
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by Lullaby using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="http://115.159.126.120/maomi/maomi.png">
+    <p id="description">长叶子的历程</p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/NeoHee/NeoHee.github.io">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+    <li>
+      <a href="https://www.zhihu.com/people/he-tao-21-35/collections">
+        
+          <i class="icon iconfont zhihu">&#xe60b;</i>
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["slideLeft2","slideRight2","flash2"],"timer":false,"delay":60000,"shuffle":true,"count":28};
+var unsplashConfig = {"gravity":"north"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+  turnoffBackgroundImage = true;
+
+
+var backgroundColor = "34495E";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
